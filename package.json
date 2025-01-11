@@ -1,0 +1,10 @@
+{
+  "name": "nobeeswax",
+  "private": true,
+  "workspaces": [
+    "frontend"
+  ],
+  "scripts": {
+    "frontend": "cd frontend && npm run dev"
+  }
+}

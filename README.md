@@ -1,4 +1,1 @@
-# NoBeesWax
-A fintech chrome extension that saves you money
-
-No nonsense, just real deals.
+A very cool monorepo for a very cool website that gamifies the way you save money!
