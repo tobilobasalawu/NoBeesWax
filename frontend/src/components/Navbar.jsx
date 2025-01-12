@@ -38,6 +38,7 @@ function Navbar() {
           <Link to="/dashboard" className="navbar-link">Dashboard</Link>
           <Link to="/hunt" className="navbar-link">Hunt Coupons</Link>
           <Link to="/leaderboard" className="navbar-link">Leaderboard</Link>
+          <Link to="/posts" className="navbar-link">Posts</Link>
           <div className="navbar-auth">
             <button className="btn btn-primary">Sign In</button>
           </div>
