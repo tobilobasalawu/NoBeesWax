@@ -14,15 +14,41 @@ function CouponHunt() {
   const [generatedCode, setGeneratedCode] = useState('');
   const [isValidating, setIsValidating] = useState(false);
 
-  // Simulates AI coupon generation - will be replaced with actual API call
-  const generateCoupon = () => {
+  const [selectedRetailer, setSelectedRetailer] = useState('');
+  const [error, setError] = useState('');
+
+  const generateCoupon = async () => {
+    if (!selectedRetailer) {
+      setError('Please select a retailer first');
+      return;
+    }
+
+    setError('');
     setIsValidating(true);
-    setTimeout(() => {
-      setGeneratedCode('SAVE25NOW');
-      setIsValidating(false);
+    
+    try {
+      const response = await fetch('http://localhost:5000/generate-coupon', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ retailer: selectedRetailer }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate coupon');
+      }
+
+      const data = await response.json();
+      setGeneratedCode(data.code);
       setShowConfetti(true);
       setTimeout(() => setShowConfetti(false), 3000);
-    }, 1500);
+    } catch (err) {
+      setError('Failed to generate coupon. Please try again.');
+      console.error('Error generating coupon:', err);
+    } finally {
+      setIsValidating(false);
+    }
   };
 
   // Get window dimensions for confetti animation
@@ -40,12 +66,18 @@ function CouponHunt() {
         <h2>AI Coupon Generator</h2>
         <p>Our AI will analyze patterns and generate potential coupon codes for your selected retailer.</p>
         
-        <select className="retailer-select">
+        <select 
+          className="retailer-select"
+          value={selectedRetailer}
+          onChange={(e) => setSelectedRetailer(e.target.value)}
+        >
           <option value="">Select a Retailer</option>
           <option value="amazon">Amazon</option>
           <option value="walmart">Walmart</option>
           <option value="target">Target</option>
         </select>
+
+        {error && <p className="error-message" style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
 
         <motion.button
           whileHover={{ scale: 1.05 }}
