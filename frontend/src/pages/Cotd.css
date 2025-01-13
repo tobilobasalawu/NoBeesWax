@@ -1,0 +1,339 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Global Styles */
+:root {
+  --bg-primary: #121212;
+  --bg-card: #1e1e1e;
+  --text-primary: #ffffff;
+  --text-secondary: #a0aec0;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --primary-color: #FFB100;
+  --primary-hover: #FF9500;
+  --gradient-primary: linear-gradient(45deg, #FFB100, #FF9500);
+  --btn-shadow: 0 4px 15px rgba(255, 177, 0, 0.3);
+  --input-focus-color: rgba(255, 177, 0, 0.3);
+  --bg-secondary: #f1f1f1;
+}
+
+/* Light Theme */
+body.light-theme {
+  --bg-primary: #f8fafc;
+  --bg-card: #ffffff;
+  --text-primary: #1e293b;
+  --text-secondary: #4a5568;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --primary-color: #FFB100;
+}
+
+.cotd-container {
+  animation: fadeIn 0.6s forwards;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 2px;
+  background: var(--primary-color);
+}
+
+/* Retailer Dropdown */
+select {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  border: 2px solid var(--border-color);
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--input-focus-color);
+  outline: none;
+}
+
+/* Button Styles */
+button {
+  background: var(--gradient-primary);
+  color: var(--text-primary);
+  box-shadow: var(--btn-shadow);
+  padding: 0.8rem 1.6rem;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 177, 0, 0.4);
+}
+
+button:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 10px rgba(255, 177, 0, 0.3);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Coupon Section */
+.coupon-container {
+  background-color: var(--bg-card);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+}
+
+.coupon-container h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.coupon-container p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.coupon-container .code {
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  font-weight: bold;
+  background-color: #fff8e1;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+}
+
+.coupon-container button {
+  background-color: var(--primary-color);
+  color: var(--text-primary);
+  padding: 0.8rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.coupon-container button:hover {
+  background-color: var(--primary-hover);
+  transform: scale(1.05);
+}
+
+.coupon-container button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--input-focus-color);
+}
+
+/* "How It Works" Section */
+#how-it-works {
+  background-color: rgba(255, 177, 0, 0.1);
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  margin-top: 3rem;
+  transition: all 0.3s ease;
+}
+
+#how-it-works:hover {
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.2);
+}
+
+#how-it-works h3 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+#how-it-works h3::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: var(--primary-color);
+}
+
+#how-it-works ol {
+  padding-left: 1.5rem;
+}
+
+#how-it-works li {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  position: relative;
+  padding-left: 2rem;
+}
+
+#how-it-works li::before {
+  content: '→';
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#how-it-works ol li:not(:last-child) {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+}
+
+#how-it-works ol li:focus-within {
+  background-color: rgba(255, 177, 0, 0.1);
+  border-radius: 6px;
+  padding-left: 1.8rem;
+}
+
+#how-it-works ol li:hover {
+  background-color: rgba(255, 177, 0, 0.05);
+  border-radius: 6px;
+}
+
+/* Sticky Footer */
+.sticky-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 1rem;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sticky-footer p {
+  font-size: 0.9rem;
+  margin: 0;
+  padding: 0;
+  color: var(--text-secondary);
+}
+
+.sticky-footer a {
+  color: var(--primary-color);
+  text-decoration: none;
+  margin-left: 0.5rem;
+  font-weight: bold;
+}
+
+.sticky-footer a:hover {
+  text-decoration: underline;
+}
+
+select {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  font-size: 1.125rem;
+  color: var(--text-primary);
+  background-color: var(--bg-card);
+  border: 2px solid var(--border-color);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  appearance: none;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+  display: block;
+}
+
+select::after {
+  content: '▼';
+  position: absolute;
+  top: 50%;
+  right: 1.2rem;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  font-size: 1.4rem;
+  pointer-events: none;
+}
+
+select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(255, 177, 0, 0.3);
+}
+
+select option {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  padding: 1rem 1.2rem;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+select option:first-child {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.select-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 1.5rem;
+  border-radius: 1rem;
+  background-color: var(--bg-container);
+}
+
+.select-container select:focus {
+  box-shadow: 0 0 0 3px rgba(255, 177, 0, 0.3);
+}
+
+select:focus-visible {
+  outline: 3px solid var(--primary-color);
+}

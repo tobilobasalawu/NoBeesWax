@@ -31,6 +31,7 @@ function Navbar() {
           <Link to="/hunt" className="navbar-link">Hunt Coupons</Link>
           <Link to="/leaderboard" className="navbar-link">Leaderboard</Link>
           <Link to="/posts" className="navbar-link">Community</Link>
+          <Link to="/coupon-of-the-day" className="navbar-link">Coupon of the Day!</Link>
           <button 
             onClick={toggleTheme}
             className="theme-toggle"
