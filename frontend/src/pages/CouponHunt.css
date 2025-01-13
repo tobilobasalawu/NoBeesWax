@@ -198,3 +198,14 @@ input:focus {
   gap: 1rem;
   padding: 1rem;
 }
+
+/* Generated code styling */
+.text-3xl.font-bold.text-blue-600 {
+  color: var(--primary-color);
+}
+
+/* Generated code container */
+.bg-gray-50 {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+}
