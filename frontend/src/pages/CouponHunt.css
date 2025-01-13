@@ -3,6 +3,40 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
+/* Heading styles */
+.text-lg.font-semibold {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+/* Benefits list styling */
+.list-disc {
+  list-style: none;
+  padding-left: 0;
+}
+
+.list-disc li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.list-disc li::before {
+  content: '•';
+  color: var(--primary-color);
+  position: absolute;
+  left: 0;
+  font-size: 1.2em;
+}
+
+/* Description text */
+.text-gray-600.mb-4 {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1rem;
+}
   to {
     opacity: 1;
     transform: translateY(0);
@@ -202,10 +236,18 @@ input:focus {
 /* Generated code styling */
 .text-3xl.font-bold.text-blue-600 {
   color: var(--primary-color);
+  background: var(--bg-primary);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  display: inline-block;
+  margin: 1rem 0;
+  border: 2px solid var(--primary-color);
 }
 
 /* Generated code container */
 .bg-gray-50 {
   background-color: var(--bg-card);
   color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
 }
