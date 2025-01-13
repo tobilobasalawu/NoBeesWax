@@ -17,10 +17,19 @@ async def generate_coupon_endpoint():
     if not retailer:
         return jsonify({'error': 'Retailer is required'}), 400
     
+    # Validate retailer is one of the allowed options
+    allowed_retailers = {'amazon', 'walmart', 'target', 'bestbuy', 'newegg'}
+    if retailer.lower() not in allowed_retailers:
+        return jsonify({'error': f'Invalid retailer. Must be one of: {", ".join(allowed_retailers)}'}), 400
+    
     try:
+        print(f"Generating coupon for retailer: {retailer}")  # Debug log
         coupon = await generate_coupon(retailer)
+        if not coupon:
+            return jsonify({'error': 'Failed to generate coupon'}), 500
         return jsonify({'code': coupon})
     except Exception as e:
+        print(f"Error generating coupon: {str(e)}")  # Debug log
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':

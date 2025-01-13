@@ -23,10 +23,32 @@
 }
 
 .navbar-brand span {
-  font-size: 1.5rem;
+  font-family: var(--font-brand);
+  font-size: 1.75rem;
   font-weight: bold;
-  color: var(--primary-color);
-  transition: color 0.3s var(--animation-timing);
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: all 0.3s var(--animation-timing);
+  position: relative;
+  display: inline-block;
+  letter-spacing: -0.5px;
+}
+
+.navbar-brand span::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gradient-primary);
+  transition: width 0.3s var(--animation-timing);
+}
+
+.navbar-brand:hover span::after {
+  width: 100%;
 }
 
 .navbar-links {

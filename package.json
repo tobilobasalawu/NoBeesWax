@@ -10,7 +10,6 @@
   "dependencies": {
     "axios": "^1.7.9",
     "cors": "^2.8.5",
-    "express": "^4.21.2",
-    "tempo-devtools": "^2.0.94"
+    "express": "^4.21.2"
   }
 }

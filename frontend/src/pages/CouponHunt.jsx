@@ -1,50 +1,47 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Confetti from 'react-confetti';
 import './CouponHunt.css';
 
-/**
- * CouponHunt page where users can generate and validate coupon codes.
- * Features an AI-powered coupon generator and real-time validation.
- * Includes celebratory animations when coupons are successfully found.
- */
-function CouponHunt() {
-  // State for UI feedback and animations
+export default function CouponHunt() {
+  // State management
   const [showConfetti, setShowConfetti] = useState(false);
   const [generatedCode, setGeneratedCode] = useState('');
   const [isValidating, setIsValidating] = useState(false);
-
-  const [selectedRetailer, setSelectedRetailer] = useState('');
   const [error, setError] = useState('');
+  const [selectedRetailer, setSelectedRetailer] = useState('');
 
-  const generateCoupon = async () => {
-    if (!selectedRetailer) {
-      setError('Please select a retailer first');
-      return;
-    }
+  const generateCoupon = async (retailer) => {
 
     setError('');
     setIsValidating(true);
     
     try {
+      console.log('Generating coupon for retailer:', selectedRetailer); // Debug log
       const response = await fetch('http://localhost:5000/generate-coupon', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
-        body: JSON.stringify({ retailer: selectedRetailer }),
+        body: JSON.stringify({ retailer }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to generate coupon');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to generate coupon');
       }
 
       const data = await response.json();
-      setGeneratedCode(data.code);
-      setShowConfetti(true);
-      setTimeout(() => setShowConfetti(false), 3000);
+      if (data.code) {
+        setGeneratedCode(data.code);
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 3000);
+      } else {
+        throw new Error('No coupon code received');
+      }
     } catch (err) {
-      setError('Failed to generate coupon. Please try again.');
+      setError(err.message || 'Failed to generate coupon. Please try again.');
       console.error('Error generating coupon:', err);
     } finally {
       setIsValidating(false);
@@ -54,61 +51,159 @@ function CouponHunt() {
   // Get window dimensions for confetti animation
   const { innerWidth: width, innerHeight: height } = window;
 
+  console.log('Rendering CouponHunt component'); // Debug log
+  
   return (
     <div className="hunt-container">
+      {console.log('CouponHunt container rendered')} {/* Debug log */}
       {/* Celebration animation when coupon is found */}
       {showConfetti && <Confetti width={width} height={height} />}
       
       <h1>Coupon Hunt</h1>
       
       {/* Main coupon generator interface */}
-      <div className="generator-card">
-        <h2>AI Coupon Generator</h2>
-        <p>Our AI will analyze patterns and generate potential coupon codes for your selected retailer.</p>
-        
-        <select 
-          className="retailer-select"
-          value={selectedRetailer}
-          onChange={(e) => setSelectedRetailer(e.target.value)}
+      <motion.div 
+        className="generator-card"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <motion.h2
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
         >
-          <option value="">Select a Retailer</option>
-          <option value="amazon">Amazon</option>
-          <option value="walmart">Walmart</option>
-          <option value="target">Target</option>
-        </select>
+          AI Coupon Generator
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+        >
+          Our AI will analyze patterns and generate potential coupon codes for your selected retailer.
+        </motion.p>
+        
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          <div className="retailer-buttons">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="retailer-btn"
+              onClick={() => generateCoupon('amazon')}
+              disabled={isValidating}
+            >
+              Amazon
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="retailer-btn"
+              onClick={() => generateCoupon('walmart')}
+              disabled={isValidating}
+            >
+              Walmart
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="retailer-btn"
+              onClick={() => generateCoupon('target')}
+              disabled={isValidating}
+            >
+              Target
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="retailer-btn"
+              onClick={() => generateCoupon('bestbuy')}
+              disabled={isValidating}
+            >
+              Best Buy
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="retailer-btn"
+              onClick={() => generateCoupon('newegg')}
+              disabled={isValidating}
+            >
+              NewEgg
+            </motion.button>
+          </div>
+        </motion.div>
 
-        {error && <p className="error-message" style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
+        <AnimatePresence>
+          {error && (
+            <motion.p 
+              className="error-message"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+            >
+              {error}
+            </motion.p>
+          )}
+        </AnimatePresence>
 
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="btn"
+          className={`btn generate-btn ${isValidating ? 'generating' : ''}`}
           onClick={generateCoupon}
           disabled={isValidating}
           id='generateCodeBtn'
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
         >
-          {isValidating ? 'Generating...' : 'Generate Coupon'}
+          <span className="btn-text">
+            {isValidating ? 'Generating...' : 'Generate Coupon'}
+          </span>
+          {isValidating && <div className="loading-spinner"></div>}
         </motion.button>
 
         {/* Display generated coupon code */}
-        {generatedCode && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="generated-code"
-            style={{ animation: 'fadeIn 0.6s forwards' }}
-          >
-            <h3>Generated Coupon Code:</h3>
-            <p className="code-value">{generatedCode}</p>
-            <button className="copy-button" onClick={() => {
-              navigator.clipboard.writeText(generatedCode);
-              alert('Coupon code copied to clipboard!');
-            }}>
-              Copy to Clipboard
-            </button>
-          </motion.div>
-        )}
-      </div>
+        <AnimatePresence mode="wait">
+          {generatedCode && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="generated-code"
+            >
+              <h3>Generated Coupon Code:</h3>
+              <motion.p 
+                className="code-value"
+                initial={{ scale: 0.8 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 200 }}
+              >
+                {generatedCode}
+              </motion.p>
+              <motion.button 
+                className="copy-button"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={(e) => {
+                  navigator.clipboard.writeText(generatedCode);
+                  const btn = e.target;
+                  btn.textContent = 'Copied!';
+                  setTimeout(() => {
+                    btn.textContent = 'Copy to Clipboard';
+                  }, 2000);
+                }}
+              >
+                Copy to Clipboard
+              </motion.button>          
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
 
       {/* How it works section */}
       <div className="card">
@@ -131,5 +226,3 @@ function CouponHunt() {
     </div>
   );
 }
-
-export default CouponHunt;

@@ -1,4 +1,6 @@
-A very cool monorepo for a very cool website that gamifies the way you save money!
+# NoBeeswax 🐝
+
+A privacy-focused platform that helps you discover and share deals while keeping your shopping habits private.
 
 ## Setup
 

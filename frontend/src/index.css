@@ -1,7 +1,9 @@
 :root {
   --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  --primary-color: #646cff;
-  --secondary-color: #535bf2;
+  --font-display: 'Playfair Display', serif;
+  --font-brand: 'Playfair Display', serif;
+  --primary-color: #FFB100;
+  --secondary-color: #FF9500;
   --accent-color: #ff6b6b;
   --background-dark: #121212;
   --background-light: #1e1e1e;
@@ -76,6 +78,38 @@ body {
   width: auto;
   max-width: 200px;
   margin: 0 auto;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  border: none;
+  color: white;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 15px rgba(100, 108, 255, 0.3);
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(100, 108, 255, 0.5);
+}
+
+.btn:active {
+  transform: translateY(-1px);
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+  opacity: 0;
+  transition: opacity 0.3s var(--animation-timing);
+  z-index: -1;
+}
+
+.btn:hover::after {
+  opacity: 1;
 }
 
 .btn {

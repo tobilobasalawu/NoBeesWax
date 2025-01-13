@@ -19,7 +19,7 @@ function Navbar() {
     <nav className="navbar">
       <div className="container navbar-container">
         <Link to="/" className="navbar-brand">
-          <span>CouponAlchemy</span>
+          <span>NoBeeswax</span>
         </Link>
         
         {/* Hamburger menu button for mobile */}
@@ -38,7 +38,7 @@ function Navbar() {
           <Link to="/dashboard" className="navbar-link">Dashboard</Link>
           <Link to="/hunt" className="navbar-link">Hunt Coupons</Link>
           <Link to="/leaderboard" className="navbar-link">Leaderboard</Link>
-          <Link to="/posts" className="navbar-link">Posts</Link>
+          <Link to="/posts" className="navbar-link">Community</Link>
           <div className="navbar-auth">
             <button className="btn btn-primary">Sign In</button>
           </div>

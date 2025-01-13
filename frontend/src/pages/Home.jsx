@@ -3,14 +3,19 @@ import './Home.css';
 
 export default function Home() {
   return (
-    <div className="text-center" style={{ animation: 'fadeIn 0.6s forwards' }}>
+    <div className="text-center home-container" style={{ animation: 'fadeIn 0.6s forwards' }}>
       <div className="hero">
+        <img 
+          src="/oiia-oiiaoiiaTransparent.gif" 
+          alt="Dynamic Animation" 
+          className="hero-animation"
+        />
         <h1 className="hero-title">
-          Transform Your Shopping with
-          <span> AI-Powered</span> Savings
+          Keep Your Deals<br/>
+          <span> Private </span> & Sweet
         </h1>
         <p className="hero-description">
-          CouponAlchemy uses advanced AI to predict and validate discount codes in real-time,
+          NoBeeswax uses advanced AI to predict and validate discount codes in real-time,
           making your online shopping experience more rewarding.
         </p>
         <div className="hero-buttons">
