@@ -37,8 +37,6 @@
   background: radial-gradient(circle at center, rgba(100, 108, 255, 0.1), transparent 70%);
   pointer-events: none;
   z-index: -1;
-}
-
   background: linear-gradient(-45deg, 
     var(--background-dark),
     var(--background-light),

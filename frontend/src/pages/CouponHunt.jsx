@@ -1,23 +1,19 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Confetti from 'react-confetti';
-import './CouponHunt.css';
+import "./CouponHunt.css"
 
 export default function CouponHunt() {
-  // State management
-  const [showConfetti, setShowConfetti] = useState(false);
-  const [generatedCode, setGeneratedCode] = useState('');
-  const [isValidating, setIsValidating] = useState(false);
-  const [error, setError] = useState('');
   const [selectedRetailer, setSelectedRetailer] = useState('');
+  const [isValidating, setIsValidating] = useState(false);
+  const [generatedCode, setGeneratedCode] = useState('');
+  const [error, setError] = useState('');
 
-  const generateCoupon = async (retailer) => {
-
+  const handleRetailerSelect = async (retailer) => {
+    setSelectedRetailer(retailer);
     setError('');
     setIsValidating(true);
     
     try {
-      console.log('Generating coupon for retailer:', selectedRetailer); // Debug log
       const response = await fetch('http://localhost:5000/generate-coupon', {
         method: 'POST',
         headers: {
@@ -35,8 +31,6 @@ export default function CouponHunt() {
       const data = await response.json();
       if (data.code) {
         setGeneratedCode(data.code);
-        setShowConfetti(true);
-        setTimeout(() => setShowConfetti(false), 3000);
       } else {
         throw new Error('No coupon code received');
       }
@@ -48,181 +42,160 @@ export default function CouponHunt() {
     }
   };
 
-  // Get window dimensions for confetti animation
-  const { innerWidth: width, innerHeight: height } = window;
+  const [customRetailer, setCustomRetailer] = useState('');
+  const retailers = ['Amazon', 'Walmart', 'Target'];
 
-  console.log('Rendering CouponHunt component'); // Debug log
-  
   return (
-    <div className="hunt-container">
-      {console.log('CouponHunt container rendered')} {/* Debug log */}
-      {/* Celebration animation when coupon is found */}
-      {showConfetti && <Confetti width={width} height={height} />}
-      
-      <h1>Coupon Hunt</h1>
-      
-      {/* Main coupon generator interface */}
-      <motion.div 
-        className="generator-card"
-        initial={{ opacity: 0, y: 20 }}
+    <div className="container mx-auto p-6" style={{ maxWidth: '800px', animation: 'fadeIn 0.6s forwards' }}>
+      <motion.h1 
+        initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
+        className="text-3xl font-bold mb-8 text-center"
       >
-        <motion.h2
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
+        Coupon Hunt
+      </motion.h1>
+      
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="bg-white rounded-lg shadow-md p-6 mb-8"
+      >
+        <h2 className="text-2xl font-semibold mb-6 text-center">
           AI Coupon Generator
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-        >
-          Our AI will analyze patterns and generate potential coupon codes for your selected retailer.
-        </motion.p>
+        </h2>
         
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          <div className="retailer-buttons">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="retailer-btn"
-              onClick={() => generateCoupon('amazon')}
+        <div className="mb-6">
+          <input
+            type="text"
+            placeholder="Enter a retailer name..."
+            value={customRetailer}
+            onChange={(e) => setCustomRetailer(e.target.value)}
+            className="w-full px-4 py-2 mb-4 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+          />
+          <button
+            onClick={() => handleRetailerSelect(customRetailer)}
+            disabled={isValidating || !customRetailer.trim()}
+            className="w-full bg-blue-500 text-white px-6 py-3 rounded-lg mb-6"
+          >
+            Generate Coupon for {customRetailer || 'Custom Retailer'}
+          </button>
+        </div>
+        <p className="text-gray-600 mb-4">Or choose from popular retailers:</p>
+        <div className="grid grid-cols-3 gap-6 mb-6">
+          {retailers.map((retailer) => (
+            <button
+              key={retailer}
+              onClick={() => handleRetailerSelect(retailer)}
               disabled={isValidating}
+              className={`
+                px-4 py-3 rounded-lg text-sm font-medium
+                transition-all duration-200 ease-in-out
+                ${selectedRetailer === retailer ? 'selected' : ''}
+                ${isValidating ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+                border border-gray-200
+                focus:outline-none
+              `}
             >
-              Amazon
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="retailer-btn"
-              onClick={() => generateCoupon('walmart')}
-              disabled={isValidating}
-            >
-              Walmart
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="retailer-btn"
-              onClick={() => generateCoupon('target')}
-              disabled={isValidating}
-            >
-              Target
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="retailer-btn"
-              onClick={() => generateCoupon('bestbuy')}
-              disabled={isValidating}
-            >
-              Best Buy
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="retailer-btn"
-              onClick={() => generateCoupon('newegg')}
-              disabled={isValidating}
-            >
-              NewEgg
-            </motion.button>
+              {retailer}
+            </button>
+          ))}
+        </div>
+
+        {error && (
+          <div className="bg-red-50 text-red-600 p-4 rounded-lg mb-6">
+            {error}
           </div>
-        </motion.div>
+        )}
 
-        <AnimatePresence>
-          {error && (
-            <motion.p 
-              className="error-message"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-            >
-              {error}
-            </motion.p>
-          )}
-        </AnimatePresence>
+        {isValidating && (
+          <div className="flex items-center justify-center space-x-2 mb-6">
+            <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+            <span className="text-gray-600">Generating code...</span>
+          </div>
+        )}
 
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className={`btn generate-btn ${isValidating ? 'generating' : ''}`}
-          onClick={generateCoupon}
-          disabled={isValidating}
-          id='generateCodeBtn'
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-        >
-          <span className="btn-text">
-            {isValidating ? 'Generating...' : 'Generate Coupon'}
-          </span>
-          {isValidating && <div className="loading-spinner"></div>}
-        </motion.button>
-
-        {/* Display generated coupon code */}
-        <AnimatePresence mode="wait">
-          {generatedCode && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="generated-code"
-            >
-              <h3>Generated Coupon Code:</h3>
-              <motion.p 
-                className="code-value"
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 200 }}
-              >
-                {generatedCode}
-              </motion.p>
-              <motion.button 
-                className="copy-button"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={(e) => {
-                  navigator.clipboard.writeText(generatedCode);
-                  const btn = e.target;
-                  btn.textContent = 'Copied!';
-                  setTimeout(() => {
-                    btn.textContent = 'Copy to Clipboard';
-                  }, 2000);
-                }}
-              >
-                Copy to Clipboard
-              </motion.button>          
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {generatedCode && (
+          <div className="bg-black-50 rounded-lg p-6">
+            <h3 className="text-lg font-semibold mb-4 text-center" style={{ color: 'var(--text-primary)' }}>Your Generated Coupon Code</h3>
+            <div className="text-center mb-8">
+              <div className="inline-block p-4 rounded-lg mb-4">
+                <p className="text-3xl font-bold text-blue-600">
+                  {generatedCode}
+                </p>
+              </div>
+              <div>
+                <button 
+                  onClick={() => {
+                    navigator.clipboard.writeText(generatedCode);
+                    const btn = document.activeElement;
+                    if (btn) {
+                      btn.textContent = 'Copied!';
+                      setTimeout(() => {
+                        btn.textContent = 'Copy to Clipboard';
+                      }, 2000);
+                    }
+                  }}
+                  className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 
+                    transition-colors duration-200 focus:outline-none focus:ring-2 
+                    focus:ring-blue-500 focus:ring-opacity-50"
+                >
+                  Copy to Clipboard
+                </button>
+              </div>
+            </div>
+            
+            <div className="border-t border-gray-200 pt-4">
+              <div className="mb-4">
+                <h4 className="font-semibold mb-2 text-center" style={{ color: 'var(--text-primary)' }}>Description</h4>
+                <p className="text-gray-600">
+                  {selectedRetailer === 'Target' 
+                    ? 'Up to 20% off on select items, plus free shipping on orders over $35.'
+                    : `Special discount for ${selectedRetailer} purchases.`}
+                </p>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold mb-2 text-center" style={{ color: 'var(--text-primary)' }}>Details</h4>
+                <div className="text-gray-600 space-y-1">
+                  <p>Valid online and in stores (where applicable)</p>
+                  <p>Cannot be combined with other offers</p>
+                  <p>Some exclusions may apply</p>
+                  <p>Limited time offer</p>
+                </div>
+              </div>
+              
+              <p className="text-sm text-gray-500 mt-4 italic">
+                * Exact savings may vary. Check retailer's website for full terms and conditions.
+              </p>
+            </div>
+          </div>
+        )}
       </motion.div>
 
-      {/* How it works section */}
-      <div className="card">
-        <h2>How It Works</h2>
-        <div className="how-it-works">
-          <div>
-            <h3 className="step-title">1. Select Retailer</h3>
-            <p className="step-description">Choose from our supported retailers list</p>
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+        className="bg-white rounded-lg shadow-md p-6"
+      >
+        <h2 className="text-2xl font-semibold mb-6">How It Works</h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h3 className="text-lg font-semibold mb-2 text-center">1. Select Retailer</h3>
+            <p className="text-gray-600 text-center">Choose from our supported retailers list</p>
           </div>
-          <div>
-            <h3 className="step-title">2. Generate Code</h3>
-            <p className="step-description">Our AI predicts potential valid codes</p>
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h3 className="text-lg font-semibold mb-2 text-center">2. Generate Code</h3>
+            <p className="text-gray-600 text-center">Our AI predicts potential valid codes</p>
           </div>
-          <div>
-            <h3 className="step-title">3. Validate & Save</h3>
-            <p className="step-description">We'll verify the code works instantly</p>
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h3 className="text-lg font-semibold mb-2 text-center">3. Validate & Save</h3>
+            <p className="text-gray-600 text-center">We'll verify the code works instantly</p>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
