@@ -27,6 +27,11 @@ dist-ssr
 .env
 
 backend/firebasesdk.json
+firebase-db
+/firebasesdk.json
+firebasesdk.json
+
+
 
 # Tempo Labs
 .tempo/
