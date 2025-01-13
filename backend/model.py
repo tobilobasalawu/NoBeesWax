@@ -33,7 +33,7 @@ async def generate_coupon_endpoint():
         return jsonify({'error': 'Retailer is required'}), 400
     
     # Validate retailer is one of the allowed options
-    allowed_retailers = {'amazon', 'walmart', 'target', 'bestbuy', 'newegg'}
+    allowed_retailers = {'Amazon', 'Walmart', 'Target', 'BestBuy', 'NewEgg'}
     if retailer.lower() not in allowed_retailers:
         return jsonify({'error': f'Invalid retailer. Must be one of: {", ".join(allowed_retailers)}'}), 400
     
@@ -49,7 +49,18 @@ async def generate_coupon_endpoint():
 
 
 >>>>>>> d48df09040b51ab64f973d92280d760838c39ef6
-        return jsonify({'code': coupon})
+        # Add more detailed response
+        response_data = {
+            'code': coupon,
+            'description': f'Special discount for {retailer} purchases',
+            'details': {
+                'validity': 'Valid online and in stores',
+                'restrictions': 'Cannot be combined with other offers',
+                'exclusions': 'Some exclusions may apply',
+                'duration': 'Limited time offer'
+            }
+        }
+        return jsonify(response_data)
     except Exception as e:
         print(f"Error generating coupon: {str(e)}")  # Debug log
         return jsonify({'error': str(e)}), 500

@@ -68,6 +68,20 @@
   color: var(--primary-color);
 }
 
+.theme-toggle {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin: 0 1rem;
+  transition: transform 0.3s var(--animation-timing);
+}
+
+.theme-toggle:hover {
+  transform: rotate(15deg);
+}
+
 .navbar-auth {
   margin-left: 1.5rem;
 }
