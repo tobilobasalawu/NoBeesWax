@@ -1,5 +1,12 @@
 import { Link } from 'react-router-dom';
 import './Home.css';
+import { useAuth } from "@clerk/clerk-react";
+
+// Assuming you have a way to check if the user is signed in
+const isUserSignedIn = () => {
+  const { isSignedIn } = useAuth();
+  return isSignedIn;
+};
 
 export default function Home() {
   return (
@@ -19,8 +26,17 @@ export default function Home() {
           making your online shopping experience more rewarding.
         </p>
         <div className="hero-buttons">
-          <Link to="/hunt" className="btn" id='startHunting'>Start Hunting</Link>
-          <Link to="/dashboard" className="btn" id='viewDash'>View Dashboard</Link>
+          {isUserSignedIn() ? (
+            <>
+              <Link to="/hunt" className="btn" id='startHunting'>Start Hunting</Link>
+              <Link to="/dashboard" className="btn" id='viewDash'>View Dashboard</Link>
+            </>
+          ) : (
+            <>
+              <Link to="/sign-in" className="btn" id='startHunting'>Start Hunting</Link>
+              <Link to="/sign-in" className="btn" id='viewDash'>View Dashboard</Link>
+            </>
+          )}
         </div>
       </div>
       
