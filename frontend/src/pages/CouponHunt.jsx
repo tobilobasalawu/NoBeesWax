@@ -6,6 +6,7 @@ export default function CouponHunt() {
   const [selectedRetailer, setSelectedRetailer] = useState('');
   const [isValidating, setIsValidating] = useState(false);
   const [generatedCode, setGeneratedCode] = useState('');
+  const [data, setData] = useState(null);
   const [error, setError] = useState('');
 
   const handleRetailerSelect = async (retailer) => {
@@ -28,9 +29,12 @@ export default function CouponHunt() {
         throw new Error(errorData.error || 'Failed to generate coupon');
       }
 
-      const data = await response.json();
-      if (data.code) {
-        setGeneratedCode(data.code);
+      const responseData = await response.json();
+      console.log('API Response:', responseData);
+      if (responseData.code) {
+        setGeneratedCode(responseData.code);
+        setData(responseData);
+        console.log('Updated state data:', responseData);
       } else {
         throw new Error('No coupon code received');
       }
@@ -150,20 +154,30 @@ export default function CouponHunt() {
               <div className="mb-4">
                 <h4 className="font-semibold mb-2 text-center" style={{ color: 'var(--text-primary)' }}>Description</h4>
                 <p className="text-gray-600">
-                  {selectedRetailer === 'Target' 
-                    ? 'Up to 20% off on select items, plus free shipping on orders over $35.'
-                    : `Special discount for ${selectedRetailer} purchases.`}
+                  {data?.description || 'Generate a coupon to see the description'}
                 </p>
+                {/* Debug info
+                {process.env.NODE_ENV === 'development' && (
+                  <p className="text-xs text-gray-400 mt-1">
+                    Debug - data?.description: {JSON.stringify(data?.description)}
+                  </p>
+                )} */}
               </div>
               
               <div>
                 <h4 className="font-semibold mb-2 text-center" style={{ color: 'var(--text-primary)' }}>Details</h4>
                 <div className="text-gray-600 space-y-1">
-                  <p>Valid online and in stores (where applicable)</p>
-                  <p>Cannot be combined with other offers</p>
-                  <p>Some exclusions may apply</p>
-                  <p>Limited time offer</p>
+                  <p>{data?.details?.validity || 'Valid online and in stores (where applicable)'}</p>
+                  <p>{data?.details?.restrictions || 'Cannot be combined with other offers'}</p>
+                  <p>{data?.details?.exclusions || 'Some exclusions may apply'}</p>
+                  <p>{data?.details?.duration || 'Limited time offer'}</p>
                 </div>
+                {/* Debug info
+                {process.env.NODE_ENV === 'development' && (
+                  <p className="text-xs text-gray-400 mt-1">
+                    Debug - data?.details: {JSON.stringify(data?.details)}
+                  </p>
+                )} */}
               </div>
               
               <p className="text-sm text-gray-500 mt-4 italic">

@@ -2,76 +2,12 @@ import asyncio
 import re
 import json
 import ollama
-import aiosqlite
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
-
-DATABASE_NAME = 'coupons.db'
-
-class Database:
-    @staticmethod
-    async def init_db():
-        """Initialize the SQLite database with required tables."""
-        async with aiosqlite.connect(DATABASE_NAME) as db:
-            await db.execute('''
-                CREATE TABLE IF NOT EXISTS coupons (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    retailer TEXT NOT NULL,
-                    coupon_code TEXT NOT NULL,
-                    description TEXT,
-                    validity TEXT,
-                    restrictions TEXT,
-                    exclusions TEXT,
-                    duration TEXT,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    status TEXT DEFAULT 'active'
-                )
-            ''')
-            await db.commit()
-
-    @staticmethod
-    async def save_coupon(retailer, coupon_data):
-        """Save coupon data to SQLite database."""
-        try:
-            async with aiosqlite.connect(DATABASE_NAME) as db:
-                query = '''
-                    INSERT INTO coupons (
-                        retailer, coupon_code, description,
-                        validity, restrictions, exclusions, duration
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?)
-                '''
-                values = (
-                    retailer,
-                    coupon_data['code'],
-                    coupon_data['description'],
-                    coupon_data['details']['validity'],
-                    coupon_data['details']['restrictions'],
-                    coupon_data['details']['exclusions'],
-                    coupon_data['details']['duration']
-                )
-                cursor = await db.execute(query, values)
-                await db.commit()
-                return cursor.lastrowid
-        except Exception as e:
-            raise RuntimeError(f"Database save failed: {str(e)}")
-
-    @staticmethod
-    async def get_coupon(coupon_id):
-        """Retrieve a coupon by its ID."""
-        async with aiosqlite.connect(DATABASE_NAME) as db:
-            db.row_factory = aiosqlite.Row
-            cursor = await db.execute(
-                'SELECT * FROM coupons WHERE id = ?', 
-                (coupon_id,)
-            )
-            row = await cursor.fetchone()
-            if row:
-                return dict(row)
-            return None
 
 class CouponGenerator:
     @staticmethod
@@ -118,16 +54,18 @@ class CouponGenerator:
     @staticmethod
     async def generate_coupon(retailer):
         """Generate a coupon using the Ollama API."""
-        prompt = f"""Generate me a coupon code for {retailer}. 
+        prompt = f"""As an AI coupon generator, create a realistic and specific coupon for {retailer}.
+        Include a compelling discount (percentage off, dollar amount, BOGO, etc.) and relevant terms.
+        
         Respond with exactly this structure:
         {{
-            'code': '<generated_coupon_code>',
-            'description': 'Special discount for {retailer} purchases',
+            'code': '<unique_alphanumeric_code>',
+            'description': '<specific discount offer, e.g. "25% off your entire purchase" or "Buy one get one 50% off">',
             'details': {{
-                'validity': 'Valid online and in stores',
-                'restrictions': 'Cannot be combined with other offers',
-                'exclusions': 'Some exclusions may apply',
-                'duration': 'Limited time offer'
+                'validity': '<where and how the coupon can be used, e.g. "Valid at all US locations and online">',
+                'restrictions': '<specific restrictions, e.g. "Minimum purchase of $50 required" or "Limit one per customer">',
+                'exclusions': '<specific excluded items/categories, e.g. "Not valid on clearance items or gift cards">',
+                'duration': '<specific timeframe, e.g. "Valid through January 31, 2024" or "Expires in 7 days">'
             }}
         }}"""
 
@@ -139,39 +77,23 @@ class CouponGenerator:
         except Exception as e:
             raise RuntimeError(f"Coupon generation failed: {str(e)}")
 
-# Initialize database on startup
-with app.app_context():
-    asyncio.run(Database.init_db())
-
 @app.route('/generate-coupon', methods=['POST'])
-def generate_coupon_endpoint():
+async def generate_coupon_endpoint():
     try:
         retailer = request.json.get('retailer')
         if not retailer:
             return jsonify({'error': 'Retailer name is required'}), 400
 
         # Generate coupon
-        coupon_data = asyncio.run(CouponGenerator.generate_coupon(retailer))
-        
-        # Save to SQLite
-        coupon_id = asyncio.run(Database.save_coupon(retailer, coupon_data))
-        
-        # Get the saved coupon
-        saved_coupon = asyncio.run(Database.get_coupon(coupon_id))
+        coupon_data = await CouponGenerator.generate_coupon(retailer)
         
         # Prepare response
         response_data = {
-            'id': coupon_id,
-            'code': saved_coupon['coupon_code'],
-            'description': saved_coupon['description'],
-            'details': {
-                'validity': saved_coupon['validity'],
-                'restrictions': saved_coupon['restrictions'],
-                'exclusions': saved_coupon['exclusions'],
-                'duration': saved_coupon['duration']
-            },
-            'created_at': saved_coupon['created_at'],
-            'status': saved_coupon['status']
+            'timestamp': datetime.now().isoformat(),
+            'retailer': retailer,
+            'code': coupon_data['code'],
+            'description': coupon_data['description'],
+            'details': coupon_data['details']
         }
         
         return jsonify(response_data)
