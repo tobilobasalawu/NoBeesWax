@@ -1,0 +1,18 @@
+root@fda604fad2a6:/app# cd src ; npm install ; npm run dev 
+npm error code ENOENT
+npm error syscall open
+npm error path /app/src/package.json
+npm error errno -2
+npm error enoent Could not read package.json: Error: ENOENT: no such file or directory, open '/app/src/package.json'
+npm error enoent This is related to npm not being able to find a file.
+npm error enoent
+npm error A complete log of this run can be found in: /root/.npm/_logs/2025-01-13T10_35_09_509Z-debug-0.log
+npm error code ENOENT
+npm error syscall open
+npm error path /app/src/package.json
+npm error errno -2
+npm error enoent Could not read package.json: Error: ENOENT: no such file or directory, open '/app/src/package.json'
+npm error enoent This is related to npm not being able to find a file.
+npm error enoent
+npm error A complete log of this run can be found in: /root/.npm/_logs/2025-01-13T10_35_10_242Z-debug-0.log
+root@fda604fad2a6:/app/src# ^C

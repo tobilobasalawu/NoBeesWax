@@ -14,6 +14,6 @@ export default defineConfig({
         plugins: [...conditionalPlugins]
       }
     }),
-    tempo() // Add the tempo plugin
+    tempo()
   ]
 });
