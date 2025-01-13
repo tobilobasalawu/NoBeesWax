@@ -1,11 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useRoutes } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import CouponHunt from './pages/CouponHunt';
 import Leaderboard from './pages/Leaderboard';
 import Posts from './pages/Posts';
-import { useRoutes } from "react-router-dom";
 import './App.css';
 
 /**
@@ -19,8 +18,9 @@ function App() {
       <div className="app-container">
         <Navbar />
         <main className="main-content">
+          {/* For the tempo routes */}
+          {import.meta.env.VITE_TEMPO && useRoutes()}
           <Routes>
-            {import.meta.env.VITE_TEMPO && useRoutes()}
             <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/hunt" element={<CouponHunt />} />
@@ -30,7 +30,6 @@ function App() {
         </main>
       </div>
     </Router>
-
   );
 }
 
