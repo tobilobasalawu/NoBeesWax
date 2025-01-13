@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import CouponHunt from './pages/CouponHunt';
 import Leaderboard from './pages/Leaderboard';
 import Posts from './pages/Posts';
+import Cotd from "./pages/Cotd";
 import './App.css';
 
 /**
@@ -24,6 +25,7 @@ function App() {
             <Route path="/hunt" element={<CouponHunt />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/posts" element={<Posts />} />
+            <Route path="/coupon-of-the-day" element={<Cotd/>} />
           </Routes>
         </main>
       </div>
