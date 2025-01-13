@@ -4,15 +4,21 @@ import App from './App.jsx'
 import './index.css'
 import { TempoDevtools } from "tempo-devtools"
 
-// Initialize TempoDevtools before anything else
-TempoDevtools.init();
+// Wait for TempoDevtools initialization before rendering
+async function initApp() {
+  try {
+    await TempoDevtools.init();
+    
+    // Only create root and render after successful initialization
+    const root = createRoot(document.getElementById('root'))
+    root.render(
+      <StrictMode>
+        <App />
+      </StrictMode>,
+    )
+  } catch (error) {
+    console.error('Failed to initialize TempoDevtools:', error);
+  }
+}
 
-// Create root after initialization
-const root = createRoot(document.getElementById('root'))
-
-// Render app
-root.render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+initApp();

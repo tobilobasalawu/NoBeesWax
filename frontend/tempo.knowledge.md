@@ -5,6 +5,8 @@
 - Scripts should be in head section for proper initialization
 - TempoDevtools.init() must be called before app renders
 - Check TempoDevtools.isInitialized() before using tempo routes
+- TempoDevtools.init() must be called before app renders
+- Check TempoDevtools.isInitialized() before using tempo routes
 - Place tempo script in head of index.html for early loading
 
 ## Common Issues
