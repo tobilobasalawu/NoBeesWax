@@ -26,12 +26,22 @@ dist-ssr
 #Environment Variables
 .env
 
+backend/firebasesdk.json
+firebase-db
+/firebasesdk.json
+firebasesdk.json
+
+
+
 # Tempo Labs
 .tempo/
 **/tempobook/
 
 **/tempobook/dynamic/
 **/tempobook/storyboards/
+<<<<<<< HEAD
 
 
 tasks.txt
+=======
+>>>>>>> d48df09040b51ab64f973d92280d760838c39ef6
