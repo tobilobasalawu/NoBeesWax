@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import CouponHunt from './pages/CouponHunt';
 import Leaderboard from './pages/Leaderboard';
 import Posts from './pages/Posts';
+import { useRoutes } from "react-router-dom";
 import './App.css';
 
 /**
@@ -19,6 +20,7 @@ function App() {
         <Navbar />
         <main className="main-content">
           <Routes>
+            {import.meta.env.VITE_TEMPO && useRoutes()}
             <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/hunt" element={<CouponHunt />} />
@@ -28,6 +30,7 @@ function App() {
         </main>
       </div>
     </Router>
+
   );
 }
 

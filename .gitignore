@@ -25,3 +25,10 @@ dist-ssr
 
 #Environment Variables
 .env
+
+# Tempo Labs
+.tempo/
+**/tempobook/
+
+**/tempobook/dynamic/
+**/tempobook/storyboards/
