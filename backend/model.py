@@ -2,18 +2,76 @@ import asyncio
 import re
 import json
 import ollama
+import aiosqlite
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import firebase_admin
-from firebase_admin import credentials, firestore
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
 
-# Load Firebase credentials
-cred = credentials.Certificate('backend/firebasesdk.json')
-firebase_admin.initialize_app(cred)
-db = firestore.client()
+DATABASE_NAME = 'coupons.db'
+
+class Database:
+    @staticmethod
+    async def init_db():
+        """Initialize the SQLite database with required tables."""
+        async with aiosqlite.connect(DATABASE_NAME) as db:
+            await db.execute('''
+                CREATE TABLE IF NOT EXISTS coupons (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    retailer TEXT NOT NULL,
+                    coupon_code TEXT NOT NULL,
+                    description TEXT,
+                    validity TEXT,
+                    restrictions TEXT,
+                    exclusions TEXT,
+                    duration TEXT,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    status TEXT DEFAULT 'active'
+                )
+            ''')
+            await db.commit()
+
+    @staticmethod
+    async def save_coupon(retailer, coupon_data):
+        """Save coupon data to SQLite database."""
+        try:
+            async with aiosqlite.connect(DATABASE_NAME) as db:
+                query = '''
+                    INSERT INTO coupons (
+                        retailer, coupon_code, description,
+                        validity, restrictions, exclusions, duration
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?)
+                '''
+                values = (
+                    retailer,
+                    coupon_data['code'],
+                    coupon_data['description'],
+                    coupon_data['details']['validity'],
+                    coupon_data['details']['restrictions'],
+                    coupon_data['details']['exclusions'],
+                    coupon_data['details']['duration']
+                )
+                cursor = await db.execute(query, values)
+                await db.commit()
+                return cursor.lastrowid
+        except Exception as e:
+            raise RuntimeError(f"Database save failed: {str(e)}")
+
+    @staticmethod
+    async def get_coupon(coupon_id):
+        """Retrieve a coupon by its ID."""
+        async with aiosqlite.connect(DATABASE_NAME) as db:
+            db.row_factory = aiosqlite.Row
+            cursor = await db.execute(
+                'SELECT * FROM coupons WHERE id = ?', 
+                (coupon_id,)
+            )
+            row = await cursor.fetchone()
+            if row:
+                return dict(row)
+            return None
 
 class CouponGenerator:
     @staticmethod
@@ -81,47 +139,39 @@ class CouponGenerator:
         except Exception as e:
             raise RuntimeError(f"Coupon generation failed: {str(e)}")
 
-class FirestoreManager:
-    def __init__(self, db):
-        self.db = db
-
-    async def save_coupon(self, retailer, coupon_data):
-        """Save coupon data to Firestore with proper structure."""
-        try:
-            timestamp = firestore.SERVER_TIMESTAMP
-            doc_ref = self.db.collection('coupons').document()
-            await doc_ref.set({
-                'retailer': retailer,
-                'coupon_code': coupon_data['code'],
-                'description': coupon_data['description'],
-                'details': coupon_data['details'],
-                'created_at': timestamp,
-                'status': 'active'
-            })
-            return doc_ref.id
-        except Exception as e:
-            raise RuntimeError(f"Firestore save failed: {str(e)}")
+# Initialize database on startup
+with app.app_context():
+    asyncio.run(Database.init_db())
 
 @app.route('/generate-coupon', methods=['POST'])
-async def generate_coupon_endpoint():
+def generate_coupon_endpoint():
     try:
         retailer = request.json.get('retailer')
         if not retailer:
             return jsonify({'error': 'Retailer name is required'}), 400
 
         # Generate coupon
-        coupon_generator = CouponGenerator()
-        coupon_data = await coupon_generator.generate_coupon(retailer)
+        coupon_data = asyncio.run(CouponGenerator.generate_coupon(retailer))
         
-        # Save to Firestore
-        firestore_manager = FirestoreManager(db)
-        doc_id = await firestore_manager.save_coupon(retailer, coupon_data)
+        # Save to SQLite
+        coupon_id = asyncio.run(Database.save_coupon(retailer, coupon_data))
         
-        # Add document ID to response
+        # Get the saved coupon
+        saved_coupon = asyncio.run(Database.get_coupon(coupon_id))
+        
+        # Prepare response
         response_data = {
-            **coupon_data,
-            'id': doc_id,
-            'status': 'success'
+            'id': coupon_id,
+            'code': saved_coupon['coupon_code'],
+            'description': saved_coupon['description'],
+            'details': {
+                'validity': saved_coupon['validity'],
+                'restrictions': saved_coupon['restrictions'],
+                'exclusions': saved_coupon['exclusions'],
+                'duration': saved_coupon['duration']
+            },
+            'created_at': saved_coupon['created_at'],
+            'status': saved_coupon['status']
         }
         
         return jsonify(response_data)
