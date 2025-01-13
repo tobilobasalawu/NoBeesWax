@@ -1,12 +1,11 @@
 import asyncio
 import ollama
-import firebase_admin
-from firebase_admin import credentials, firestore
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
+
 
 # Load Firebase credentials
 cred = credentials.Certificate('backend/firebasesdk.json')
@@ -14,6 +13,7 @@ firebase_admin.initialize_app(cred)
 
 # Initialize Firestore
 db = firestore.client()
+
 
 async def generate_coupon(retailer):
     client = ollama.AsyncClient()
@@ -34,7 +34,10 @@ async def generate_coupon_endpoint():
     
     try:
         coupon = await generate_coupon(retailer)
+
         await save_coupon_to_firestore(retailer, coupon)
+
+
         return jsonify({'code': coupon})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
