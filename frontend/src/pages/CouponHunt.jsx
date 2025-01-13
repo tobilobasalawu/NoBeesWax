@@ -117,46 +117,54 @@ export default function CouponHunt() {
         )}
 
         {generatedCode && (
-          <div className="bg-gray-50 rounded-lg p-6">
-            <div className="text-center mb-6">
-              <h3 className="text-lg font-semibold mb-2">Generated Coupon Code:</h3>
-              <p className="text-3xl font-bold text-blue-600 mb-2">
-                {generatedCode}
-              </p>
-              <button 
-                onClick={() => {
-                  navigator.clipboard.writeText(generatedCode);
-                  const btn = document.activeElement;
-                  if (btn) {
-                    btn.textContent = 'Copied!';
-                    setTimeout(() => {
-                      btn.textContent = 'Copy to Clipboard';
-                    }, 2000);
-                  }
-                }}
-                className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 
-                  transition-colors duration-200 focus:outline-none focus:ring-2 
-                  focus:ring-blue-500 focus:ring-opacity-50"
-              >
-                Copy to Clipboard
-              </button>
+          <div className="bg-black-50 rounded-lg p-6">
+            <h3 className="text-lg font-semibold mb-4 text-center" style={{ color: 'var(--text-primary)' }}>Your Generated Coupon Code</h3>
+            <div className="text-center mb-8">
+              <div className="inline-block p-4 rounded-lg mb-4">
+                <p className="text-3xl font-bold text-blue-600">
+                  {generatedCode}
+                </p>
+              </div>
+              <div>
+                <button 
+                  onClick={() => {
+                    navigator.clipboard.writeText(generatedCode);
+                    const btn = document.activeElement;
+                    if (btn) {
+                      btn.textContent = 'Copied!';
+                      setTimeout(() => {
+                        btn.textContent = 'Copy to Clipboard';
+                      }, 2000);
+                    }
+                  }}
+                  className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 
+                    transition-colors duration-200 focus:outline-none focus:ring-2 
+                    focus:ring-blue-500 focus:ring-opacity-50"
+                >
+                  Copy to Clipboard
+                </button>
+              </div>
             </div>
             
             <div className="border-t border-gray-200 pt-4">
-              <h4 className="font-semibold mb-2">Description:</h4>
-              <p className="text-gray-600 mb-4">
-                {selectedRetailer === 'Target' 
-                  ? 'Up to 20% off on select items, plus free shipping on orders over $35.'
-                  : `Special discount for ${selectedRetailer} purchases.`}
-              </p>
+              <div className="mb-4">
+                <h4 className="font-semibold mb-2 text-center" style={{ color: 'var(--text-primary)' }}>Description</h4>
+                <p className="text-gray-600">
+                  {selectedRetailer === 'Target' 
+                    ? 'Up to 20% off on select items, plus free shipping on orders over $35.'
+                    : `Special discount for ${selectedRetailer} purchases.`}
+                </p>
+              </div>
               
-              <h4 className="font-semibold mb-2">Details:</h4>
-              <ul className="text-gray-600 list-disc pl-5 space-y-2">
-                <li>Valid online and in stores (where applicable)</li>
-                <li>Cannot be combined with other offers</li>
-                <li>Some exclusions may apply</li>
-                <li>Limited time offer</li>
-              </ul>
+              <div>
+                <h4 className="font-semibold mb-2 text-center" style={{ color: 'var(--text-primary)' }}>Details</h4>
+                <div className="text-gray-600 space-y-1">
+                  <p>Valid online and in stores (where applicable)</p>
+                  <p>Cannot be combined with other offers</p>
+                  <p>Some exclusions may apply</p>
+                  <p>Limited time offer</p>
+                </div>
+              </div>
               
               <p className="text-sm text-gray-500 mt-4 italic">
                 * Exact savings may vary. Check retailer's website for full terms and conditions.

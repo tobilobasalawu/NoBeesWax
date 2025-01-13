@@ -6,7 +6,7 @@
 
 /* Heading styles */
 .text-lg.font-semibold {
-  color: var(--text-primary);
+  color: var(--primary-color);
   margin-bottom: 1rem;
 }
 
@@ -235,13 +235,59 @@ input:focus {
 
 /* Generated code styling */
 .text-3xl.font-bold.text-blue-600 {
-  color: var(--primary-color);
+  color: var(--text-primary);
   background: var(--bg-primary);
-  padding: 1rem;
+  padding: 1rem 2rem;
   border-radius: 0.5rem;
   display: inline-block;
   margin: 1rem 0;
   border: 2px solid var(--primary-color);
+  font-family: var(--font-primary);
+  letter-spacing: 1px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Generated code container */
+.bg-gray-50 {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+}
+
+.text-3xl.font-bold.text-blue-600 {
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  display: inline-block;
+  margin: 1rem 0;
+  border: 2px solid var(--primary-color);
+  font-family: var(--font-primary);
+  letter-spacing: 1px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Copy button styling */
+.bg-blue-500.text-white {
+  background: var(--gradient-primary) !important;
+  color: var(--background-dark) !important;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: var(--btn-shadow);
+  margin-top: 1rem;
+}
+
+.bg-blue-500.text-white:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 177, 0, 0.4);
+}
+
+.bg-blue-500.text-white:active {
+  transform: scale(0.98);
 }
 
 /* Generated code container */
