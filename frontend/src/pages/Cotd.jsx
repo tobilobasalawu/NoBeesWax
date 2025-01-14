@@ -175,7 +175,24 @@ export default function Cotd() {
         Coupons of the Day
       </motion.h1>
 
-      <GetLatestButton onClick={fetchLatestCoupons} loading={loading} />
+      <motion.button
+        onClick={fetchLatestCoupons}
+        disabled={loading}
+        className="refresh-button"
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+      >
+        <div className="button-content">
+          {loading ? (
+            <FaSpinner className="animate-spin" />
+          ) : (
+            <>
+              <FaSync className="icon" /> 
+              <span>Get Latest Coupons!</span>
+            </>
+          )}
+        </div>
+      </motion.button>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {(coupons.length > 0 ? coupons : [

@@ -26,6 +26,7 @@ function Navbar() {
       <div className="container navbar-container">
         <Link to="/" className="navbar-brand">
           <span>NoBeeswax</span>
+          <small className="tagline">Real Honey</small>
         </Link>
 
         <div className={`navbar-links ${isMenuOpen ? 'active' : ''}`}>

@@ -54,6 +54,15 @@ export default function Home() {
           <p className="feature-description">Get points for discovering and sharing working coupon codes.</p>
         </div>
       </div>
+      
+      <footer className="home-footer">
+        <div className="footer-content">
+          <div className="footer-brand">
+            <h3>NoBeeswax</h3>
+            <p>Real Honey</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

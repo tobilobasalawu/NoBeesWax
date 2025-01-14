@@ -156,8 +156,75 @@ body.light-theme {
   display: grid;
   gap: 2rem;
   padding: 1rem;
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+}
+
+@media (max-width: 767px) {
+  .grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+  }
+}
+
+/* Refresh Button */
+.refresh-button {
+  width: 100%;
+  max-width: 300px;
+  margin: 2rem auto;
+  display: block;
+  padding: 1rem 2rem;
+  background: var(--gradient-primary);
+  border: none;
+  border-radius: 0.5rem;
+  color: var(--bg-primary);
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: var(--btn-shadow);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.refresh-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.refresh-button .button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.refresh-button .icon {
+  font-size: 1.2rem;
+}
+
+.refresh-button:hover {
+  box-shadow: 0 6px 20px rgba(255, 177, 0, 0.4);
+}
+
+.refresh-button:active {
+  transform: translateY(1px);
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (min-width: 768px) {

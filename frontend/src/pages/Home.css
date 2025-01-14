@@ -208,3 +208,45 @@
   transform: translateY(-3px);
   box-shadow: var(--btn-primary-hover-shadow);
 }
+
+.home-footer {
+  margin-top: 4rem;
+  padding: 2rem 0;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-color);
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.footer-brand {
+  text-align: center;
+}
+
+.footer-brand {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-brand h3 {
+  font-family: var(--font-brand);
+  font-size: 1.5rem;
+  font-weight: bold;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.footer-brand p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-top: -0.25rem;
+}
