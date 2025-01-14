@@ -52,11 +52,24 @@ Privacy-focused platform for discovering and sharing deals while keeping shoppin
 - Start backend: `cd backend && python model.py`
 - Install new frontend package: `cd frontend && npm install <package>`
 
+## API Endpoints
+- Backend runs on port 5000
+- Frontend runs on port 5173 (or next available port)
+- Available endpoints:
+  - POST /generate-coupon: Generate AI-powered coupon for a retailer
+  - POST /analyze: Analyze Reddit for coupon images
+
 ## Links
 - [Clerk Documentation](https://clerk.com/docs)
 - [Vite Documentation](https://vitejs.dev/guide/)
 - [Flask Documentation](https://flask.palletsprojects.com/)
 - [ChromaDB Documentation](https://docs.trychroma.com/)
+
+## Development Setup
+- Start backend: `cd backend && python server.py`
+- Start frontend: `cd frontend && npm run dev`
+- Both servers must be running for the app to work
+- Backend must be running on port 5000 for frontend API calls to work
 
 ## Work in Progress
 - Implementing rate limiting

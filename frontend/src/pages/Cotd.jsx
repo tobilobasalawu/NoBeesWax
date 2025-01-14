@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import "./Cotd.css";
-import { FaClipboard, FaRegQuestionCircle, FaSpinner } from 'react-icons/fa';
+import { FaClipboard, FaRegQuestionCircle, FaSpinner, FaSync } from 'react-icons/fa';
 
 const RetailerSelect = ({ selectedRetailer, setSelectedRetailer, retailers }) => (
   <div className="mb-4">
@@ -19,6 +19,24 @@ const RetailerSelect = ({ selectedRetailer, setSelectedRetailer, retailers }) =>
       ))}
     </select>
   </div>
+);
+
+const GetLatestButton = ({ onClick, loading }) => (
+  <motion.button
+    onClick={onClick}
+    disabled={loading}
+    className="w-full mb-8 px-6 py-4 bg-gradient-to-r from-yellow-500 to-orange-400 text-white rounded-lg hover:bg-orange-500 transition transform hover:scale-105 disabled:opacity-50 flex items-center justify-center gap-2 text-lg font-semibold shadow-lg"
+    whileHover={{ scale: 1.02 }}
+    whileTap={{ scale: 0.98 }}
+  >
+    {loading ? (
+      <FaSpinner className="animate-spin" />
+    ) : (
+      <>
+        <FaSync /> Get Latest Coupons!
+      </>
+    )}
+  </motion.button>
 );
 
 const CouponCard = ({ coupon, loading, fetchCoupon, error }) => (
@@ -57,15 +75,15 @@ const CouponCard = ({ coupon, loading, fetchCoupon, error }) => (
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3 }}
       >
-        <h2 className="text-2xl font-semibold mb-2 text-gray-800">{coupon.title}</h2>
+        <h2 className="text-2xl font-semibold mb-2 text-gray-800">Exclusive Deal</h2>
         <p className="text-lg text-gray-700 mb-4">{coupon.description}</p>
         <div className="text-xl font-bold text-blue-600 mb-4">
-          Code: <span className="bg-yellow-200 px-2 py-1 rounded">{coupon.code}</span>
+          Code: <span className="bg-yellow-200 px-2 py-1 rounded">{coupon.coupon}</span>
         </div>
         <div className="flex justify-center space-x-4">
           <button
             onClick={() => {
-              navigator.clipboard.writeText(coupon.code);
+              navigator.clipboard.writeText(coupon.coupon);
               alert('Coupon code copied to clipboard!');
             }}
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
@@ -102,7 +120,7 @@ const HowItWorks = () => (
 );
 
 export default function Cotd() {
-  const [coupon, setCoupon] = useState(null);
+  const [coupons, setCoupons] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedRetailer, setSelectedRetailer] = useState('walmart');  
@@ -115,111 +133,61 @@ export default function Cotd() {
     { name: 'Macy\'s', value: 'macys' }
   ];
 
-  const fetchCoupon = async () => {
+  const fetchLatestCoupons = async () => {
     setLoading(true);
     setError(null);
-    setCoupon(null);
 
     try {
-      const response = await fetch(`https://api.example.com/daily-coupon/${selectedRetailer}`);
+      const response = await fetch('http://localhost:5000/analyze', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          subreddit: 'coupons',
+          image_count: 6
+        })
+      });
+
       if (!response.ok) {
-        throw new Error('Failed to fetch the coupon of the day.');
+        throw new Error('Failed to fetch latest coupons.');
       }
 
       const data = await response.json();
-      setCoupon(data.coupon);
+      console.log(data); // Log the data to the console
+      setCoupons(data);
     } catch (err) {
       setError(err.message);
+      console.error('Error fetching coupons:', err);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="cotd-container p-6">        <motion.h1
-          className="page-title"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          Coupons of the Day
-        </motion.h1>
+    <div className="cotd-container p-6">
+      <motion.h1
+        className="page-title"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        Coupons of the Day
+      </motion.h1>
+
+      <GetLatestButton onClick={fetchLatestCoupons} loading={loading} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {[
+        {(coupons.length > 0 ? coupons : [
           {
-            retailer: 'Amazon',
-            title: '20% Off Electronics',
-            code: 'TECH20',
-            description: 'Save 20% on select electronics',
-            details: {
-              validity: 'Valid online only',
-              restrictions: 'Maximum discount $100',
-              exclusions: 'Excludes smartphones',
-              duration: 'Valid through Dec 31, 2024'
-            }
+            coupon: 'TECH20',
+            description: 'Amazon - Save 20% on select electronics'
           },
           {
-            retailer: 'Walmart',
-            title: '$10 Off $50',
-            code: 'SAVE10NOW',
-            description: '$10 off your purchase of $50 or more',
-            details: {
-              validity: 'Valid in-store and online',
-              restrictions: 'One per customer',
-              exclusions: 'Excludes gift cards',
-              duration: 'Expires in 7 days'
-            }
-          },
-          {
-            retailer: 'Target',
-            title: 'BOGO 50% Off',
-            code: 'BOGO50',
-            description: 'Buy one get one 50% off on clothing',
-            details: {
-              validity: 'Valid on all clothing items',
-              restrictions: 'Equal or lesser value',
-              exclusions: 'Excludes clearance items',
-              duration: 'This week only'
-            }
-          },
-          {
-            retailer: 'Best Buy',
-            title: '15% Off Gaming',
-            code: 'GAME15',
-            description: '15% off gaming accessories',
-            details: {
-              validity: 'Online purchases only',
-              restrictions: 'Maximum discount $50',
-              exclusions: 'Excludes consoles',
-              duration: 'Limited time offer'
-            }
-          },
-          {
-            retailer: "Macy's",
-            title: '$25 Off $100',
-            code: 'SAVE25',
-            description: '$25 off your purchase of $100 or more',
-            details: {
-              validity: 'Valid on all purchases',
-              restrictions: 'Cannot combine with other offers',
-              exclusions: 'Excludes designer brands',
-              duration: 'Ends soon'
-            }
-          },
-          {
-            retailer: 'Nike',
-            title: '30% Off Sale Items',
-            code: 'EXTRA30',
-            description: 'Additional 30% off sale items',
-            details: {
-              validity: 'Valid on sale items only',
-              restrictions: 'While supplies last',
-              exclusions: 'Excludes new releases',
-              duration: 'This weekend only'
-            }
+            coupon: 'SAVE10NOW',
+            description: 'Walmart - $10 off your purchase of $50 or more'
           }
-        ].map((coupon, index) => (
+        ]).map((coupon, index) => (
           <motion.div
             key={index}
             className="coupon-container"
@@ -228,16 +196,16 @@ export default function Cotd() {
             transition={{ duration: 0.3, delay: index * 0.1 }}
           >
             <div className="coupon-header">
-              <h2 className="retailer">{coupon.retailer}</h2>
-              <h3 className="title">{coupon.title}</h3>
+              <h2 className="retailer">Exclusive Deal</h2>
+              <h3 className="title">Today's Coupon</h3>
             </div>
             
             <div className="coupon-content">
               <div className="code-section">
-                <span className="code">{coupon.code}</span>
+                <span className="code">{coupon.coupon}</span>
                 <button
                   onClick={() => {
-                    navigator.clipboard.writeText(coupon.code);
+                    navigator.clipboard.writeText(coupon.coupon);
                     alert('Coupon code copied to clipboard!');
                   }}
                   className="copy-button"
@@ -247,11 +215,6 @@ export default function Cotd() {
               </div>
               
               <p className="description">{coupon.description}</p>
-              
-              <div className="details-list">
-                <div className="detail"><span>✓</span> {coupon.details.validity}</div>
-                <div className="detail"><span>⚠</span> {coupon.details.exclusions}</div>
-              </div>
             </div>
           </motion.div>
         ))}
