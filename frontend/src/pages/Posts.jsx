@@ -22,6 +22,7 @@ function Posts() {
 const handleAddPost = async () => {
   if (newPost.trim()) {
       const post = {
+          id: Math.random().toString(36).substr(2, 9),
           content: newPost.trim(),
           likes: 0,
           dislikes: 0,
@@ -43,21 +44,19 @@ const handleAddPost = async () => {
 
 
 const handleLike = async (id) => {
-  await updatePostLikes(id);
-  setPosts((prevPosts) =>
-      prevPosts.map((post) =>
-          post.id === id ? { ...post, likes: post.likes + 1, hasLiked: true } : post
-      )
-  );
+  setPosts(posts.map(post => 
+      post.id === id && !post.hasDisliked && !post.hasLiked
+          ? { ...post, likes: post.likes + 1, hasLiked: true } 
+          : post
+  ));
 };
 
 const handleDislike = async (id) => {
-  await updatePostDislikes(id);
-  setPosts((prevPosts) =>
-      prevPosts.map((post) =>
-          post.id === id ? { ...post, dislikes: post.dislikes + 1, hasDisliked: true } : post
-      )
-  );
+  setPosts(posts.map(post => 
+      post.id === id && !post.hasLiked && !post.hasDisliked
+          ? { ...post, dislikes: post.dislikes + 1, hasDisliked: true } 
+          : post
+  ));
 };
 
   const handleViewPost = (post) => {
@@ -188,14 +187,14 @@ const handleDislike = async (id) => {
                           <button
                               onClick={() => handleLike(post.id)}
                               className="like-button"
-                              disabled={post.hasLiked}
+                              disabled={post.hasLiked || post.hasDisliked}
                           >
                               Like ({post.likes})
                           </button>
                           <button
                               onClick={() => handleDislike(post.id)}
                               className="dislike-button"
-                              disabled={post.hasDisliked}
+                              disabled={post.hasLiked || post.hasDisliked}
                           >
                               Dislike ({post.dislikes})
                           </button>

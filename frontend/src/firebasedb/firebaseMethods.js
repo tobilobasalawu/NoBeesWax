@@ -44,3 +44,24 @@ export const updatePostDislikes = async (postId) => {
         throw error;
     }
 };
+
+const updateLikeStatus = async (postId, action) => {
+    const postRef = doc(db, "posts", postId);
+    try {
+        if (action === "like") {
+            await updateDoc(postRef, { 
+                likes: increment(1), 
+                hasLiked: true, 
+                hasDisliked: false 
+            });
+        } else if (action === "dislike") {
+            await updateDoc(postRef, { 
+                dislikes: increment(1), 
+                hasLiked: false, 
+                hasDisliked: true 
+            });
+        }
+    } catch (error) {
+        console.error("Error updating like/dislike: ", error);
+    }
+};
