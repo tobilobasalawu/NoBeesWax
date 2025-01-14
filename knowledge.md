@@ -22,6 +22,7 @@ Privacy-focused platform for discovering and sharing deals while keeping shoppin
 - Use Clerk for all auth-related functionality
 - Protected routes should use SignedIn component
 - Redirect unauthenticated users to /sign-in
+- Sign-in/up routes must use wildcard paths (e.g., "/sign-in/*") to support OAuth callbacks
 
 ### State Management
 - Use React hooks for local state

@@ -32,11 +32,10 @@ function App() {
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/posts" element={<Posts />} />
 
-            <Route path="/sign-in" element={<SignInPage />} />
-            <Route path="/sign-up" element={<SignUpPage />} />
+            <Route path="/sign-in/*" element={<SignInPage />} />
+            <Route path="/sign-up/*" element={<SignUpPage />} />
 
             <Route path="/coupon-of-the-day" element={<Cotd/>} />
-
           </Routes>
         </main>
       </div>
