@@ -136,29 +136,122 @@ export default function Cotd() {
   };
 
   return (
-    <div className="cotd-container p-6 max-w-xl mx-auto">
-      <motion.h1
-        className="text-4xl font-bold text-center mb-6 relative"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        Coupon of the Day
-        <div className="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-yellow-500 to-orange-400"></div>
-      </motion.h1>
+    <div className="cotd-container p-6 max-w-xl mx-auto">        <motion.h1
+          className="text-4xl font-bold text-center mb-6 relative"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          Coupons of the Day
+          <div className="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-yellow-500 to-orange-400"></div>
+        </motion.h1>
 
-      <RetailerSelect
-        selectedRetailer={selectedRetailer}
-        setSelectedRetailer={setSelectedRetailer}
-        retailers={retailers}
-      />
-
-      <CouponCard
-        coupon={coupon}
-        loading={loading}
-        fetchCoupon={fetchCoupon}
-        error={error}
-      />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[
+          {
+            retailer: 'Amazon',
+            title: '20% Off Electronics',
+            code: 'TECH20',
+            description: 'Save 20% on select electronics',
+            details: {
+              validity: 'Valid online only',
+              restrictions: 'Maximum discount $100',
+              exclusions: 'Excludes smartphones',
+              duration: 'Valid through Dec 31, 2024'
+            }
+          },
+          {
+            retailer: 'Walmart',
+            title: '$10 Off $50',
+            code: 'SAVE10NOW',
+            description: '$10 off your purchase of $50 or more',
+            details: {
+              validity: 'Valid in-store and online',
+              restrictions: 'One per customer',
+              exclusions: 'Excludes gift cards',
+              duration: 'Expires in 7 days'
+            }
+          },
+          {
+            retailer: 'Target',
+            title: 'BOGO 50% Off',
+            code: 'BOGO50',
+            description: 'Buy one get one 50% off on clothing',
+            details: {
+              validity: 'Valid on all clothing items',
+              restrictions: 'Equal or lesser value',
+              exclusions: 'Excludes clearance items',
+              duration: 'This week only'
+            }
+          },
+          {
+            retailer: 'Best Buy',
+            title: '15% Off Gaming',
+            code: 'GAME15',
+            description: '15% off gaming accessories',
+            details: {
+              validity: 'Online purchases only',
+              restrictions: 'Maximum discount $50',
+              exclusions: 'Excludes consoles',
+              duration: 'Limited time offer'
+            }
+          },
+          {
+            retailer: "Macy's",
+            title: '$25 Off $100',
+            code: 'SAVE25',
+            description: '$25 off your purchase of $100 or more',
+            details: {
+              validity: 'Valid on all purchases',
+              restrictions: 'Cannot combine with other offers',
+              exclusions: 'Excludes designer brands',
+              duration: 'Ends soon'
+            }
+          },
+          {
+            retailer: 'Nike',
+            title: '30% Off Sale Items',
+            code: 'EXTRA30',
+            description: 'Additional 30% off sale items',
+            details: {
+              validity: 'Valid on sale items only',
+              restrictions: 'While supplies last',
+              exclusions: 'Excludes new releases',
+              duration: 'This weekend only'
+            }
+          }
+        ].map((coupon, index) => (
+          <motion.div
+            key={index}
+            className="coupon-container"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3, delay: index * 0.1 }}
+          >
+            <h2 className="text-2xl font-semibold mb-2 text-gray-800">{coupon.retailer}</h2>
+            <h3 className="text-xl mb-2">{coupon.title}</h3>
+            <p className="text-gray-700 mb-4">{coupon.description}</p>
+            <div className="text-xl font-bold text-blue-600 mb-4">
+              Code: <span className="bg-yellow-200 px-2 py-1 rounded">{coupon.code}</span>
+            </div>
+            <div className="text-sm text-gray-600">
+              <p>✓ {coupon.details.validity}</p>
+              <p>ℹ {coupon.details.restrictions}</p>
+              <p>⚠ {coupon.details.exclusions}</p>
+              <p>⏰ {coupon.details.duration}</p>
+            </div>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(coupon.code);
+                alert('Coupon code copied to clipboard!');
+              }}
+              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+            >
+              <FaClipboard className="inline mr-2" /> Copy Code
+            </button>
+          </motion.div>
+        ))}
+      </div>
 
       <HowItWorks />
 
