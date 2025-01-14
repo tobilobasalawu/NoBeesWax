@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from datetime import datetime
 from model import CouponGenerator
+from coupon import CouponAnalyzer
 
 app = Flask(__name__)
 CORS(app)
@@ -33,6 +34,18 @@ async def generate_coupon_endpoint():
         return jsonify({'error': 'Processing error', 'message': str(e)}), 500
     except Exception as e:
         return jsonify({'error': 'Unexpected error', 'message': str(e)}), 500
+    
+@app.route('/analyze', methods=['POST'])
+def analyze():
+    data = request.json
+    subreddit_name = data.get('subreddit', 'coupons')
+    image_count = data.get('image_count', 6)
+
+    analyzer = CouponAnalyzer()
+    results = analyzer.process_subreddit(subreddit_name, image_count)
+
+    return jsonify(results)
+
 
 if __name__ == '__main__':
     app.run(port=5000)

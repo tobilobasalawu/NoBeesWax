@@ -31,17 +31,18 @@ firebase-db
 /firebasesdk.json
 firebasesdk.json
 
-
-
 # Tempo Labs
 .tempo/
 **/tempobook/
 
 **/tempobook/dynamic/
 **/tempobook/storyboards/
-<<<<<<< HEAD
-
 
 tasks.txt
-=======
->>>>>>> d48df09040b51ab64f973d92280d760838c39ef6
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+backend/__pycache__/
+backend/*.py[cod]
