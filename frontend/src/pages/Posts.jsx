@@ -6,6 +6,8 @@ function Posts() {
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState("");
   const [viewingPost, setViewingPost] = useState(null); // State for currently viewed post
+  const [newCode, setNewCode] = useState(""); 
+  const [newStore, setNewStore] = useState("");
 
   //Fetching posts from firebase
   useEffect(() => {
@@ -25,15 +27,17 @@ const handleAddPost = async () => {
           dislikes: 0,
           hasLiked: false,
           hasDisliked: false,
-          code: "NEW_CODE", // Replace with actual logic if needed
-          store: "Unknown",
-          verified: false,
+          code: newCode.trim(), 
+          store: newStore.trim(),
+          verified: true,
           discoverer: "Anonymous",
           discoveredAt: new Date().toISOString(),
       };
       const addedPost = await addPostToFirebase(post);
-      setPosts((prevPosts) => [...prevPosts, addedPost]);
+      setPosts((prevPosts) => [addedPost, ...prevPosts]);
       setNewPost("");
+      setNewCode("");
+      setNewStore("");
   }
 };
 
@@ -135,6 +139,20 @@ const handleDislike = async (id) => {
               onChange={(e) => setNewPost(e.target.value)}
               placeholder="Start a post about coupon codes..."
               className="new-post-input"
+            />
+            <input
+                type="text"
+                value={newCode}
+                onChange={(e) => setNewCode(e.target.value)}
+                placeholder="Enter the code (e.g., SAVE20)"
+                className="new-code-input"
+            />
+            <input
+                type="text"
+                value={newStore}
+                onChange={(e) => setNewStore(e.target.value)}
+                placeholder="Enter the store name (e.g., Amazon)"
+                className="new-store-input"
             />
             <button onClick={handleAddPost} className="add-post-button">Post</button>
           </div>
