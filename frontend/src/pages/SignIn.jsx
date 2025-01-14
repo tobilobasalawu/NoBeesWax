@@ -1,4 +1,3 @@
-// frontend/src/pages/SignIn.jsx
 import React from 'react';
 import { SignIn } from '@clerk/clerk-react';
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
@@ -10,14 +9,27 @@ const SignInPage = () => {
                 <SignIn 
                     routing="path"
                     path="/sign-in"
-                    signUpUrl="/sign-up" // Redirect to /sign-up for the "Sign up" link
+                    signUpUrl="/sign-up"
                     appearance={{
                         elements: {
-                            formButtonPrimary: 'bg-blue-500 text-white', // Style for the primary button
-                            footerAction: "text-blue-500 hover:text-blue-600", // Style for the "Sign up" link
+                            formButtonPrimary: 'bg-blue-500 text-white',
+                            footerAction: "text-blue-500 hover:text-blue-600",
+                            headerTitle: {
+                                color: 'var(--text-primary)',
+                                '&::after': {
+                                    display: 'none' // Remove the underline
+                                }
+                            }
                         },
                         variables: {
                             spacingUnit: "1rem",
+                        }
+                    }}
+                    localization={{
+                        signIn: {
+                            start: {
+                                title: "Sign in to NoBeeswax" // Fix "Sign into" to "Sign in to"
+                            }
                         }
                     }}
                 />

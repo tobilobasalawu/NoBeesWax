@@ -1,8 +1,6 @@
-// ... imports remain similar, just change SignIn to SignUp ...
 import React from 'react';
 import { SignUp } from '@clerk/clerk-react';
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
-import { Link } from 'react-router-dom';
 
 const SignUpPage = () => {
     return (
@@ -11,14 +9,27 @@ const SignUpPage = () => {
                 <SignUp 
                     routing="path"
                     path="/sign-up"
-                    signInUrl="/sign-in" // Redirect to /sign-up for the "Sign up" link
+                    signInUrl="/sign-in"
                     appearance={{
                         elements: {
-                            formButtonPrimary: 'bg-blue-500 text-white', // Style for the primary button
-                            footerAction: "text-blue-500 hover:text-blue-600", // Style for the "Sign up" link
+                            formButtonPrimary: 'bg-blue-500 text-white',
+                            footerAction: "text-blue-500 hover:text-blue-600",
+                            headerTitle: {
+                                color: 'var(--text-primary)',
+                                '&::after': {
+                                    display: 'none'
+                                }
+                            }
                         },
                         variables: {
                             spacingUnit: "1rem",
+                        }
+                    }}
+                    localization={{
+                        signUp: {
+                            start: {
+                                title: "Sign up for NoBeeswax"
+                            }
                         }
                     }}
                 />

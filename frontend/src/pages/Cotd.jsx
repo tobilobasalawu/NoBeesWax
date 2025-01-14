@@ -136,17 +136,16 @@ export default function Cotd() {
   };
 
   return (
-    <div className="cotd-container p-6 max-w-xl mx-auto">        <motion.h1
-          className="text-4xl font-bold text-center mb-6 relative"
+    <div className="cotd-container p-6">        <motion.h1
+          className="page-title"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
           Coupons of the Day
-          <div className="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-yellow-500 to-orange-400"></div>
         </motion.h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {[
           {
             retailer: 'Amazon',
@@ -228,27 +227,32 @@ export default function Cotd() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
           >
-            <h2 className="text-2xl font-semibold mb-2 text-gray-800">{coupon.retailer}</h2>
-            <h3 className="text-xl mb-2">{coupon.title}</h3>
-            <p className="text-gray-700 mb-4">{coupon.description}</p>
-            <div className="text-xl font-bold text-blue-600 mb-4">
-              Code: <span className="bg-yellow-200 px-2 py-1 rounded">{coupon.code}</span>
+            <div className="coupon-header">
+              <h2 className="retailer">{coupon.retailer}</h2>
+              <h3 className="title">{coupon.title}</h3>
             </div>
-            <div className="text-sm text-gray-600">
-              <p>✓ {coupon.details.validity}</p>
-              <p>ℹ {coupon.details.restrictions}</p>
-              <p>⚠ {coupon.details.exclusions}</p>
-              <p>⏰ {coupon.details.duration}</p>
+            
+            <div className="coupon-content">
+              <div className="code-section">
+                <span className="code">{coupon.code}</span>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(coupon.code);
+                    alert('Coupon code copied to clipboard!');
+                  }}
+                  className="copy-button"
+                >
+                  <FaClipboard />
+                </button>
+              </div>
+              
+              <p className="description">{coupon.description}</p>
+              
+              <div className="details-list">
+                <div className="detail"><span>✓</span> {coupon.details.validity}</div>
+                <div className="detail"><span>⚠</span> {coupon.details.exclusions}</div>
+              </div>
             </div>
-            <button
-              onClick={() => {
-                navigator.clipboard.writeText(coupon.code);
-                alert('Coupon code copied to clipboard!');
-              }}
-              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-            >
-              <FaClipboard className="inline mr-2" /> Copy Code
-            </button>
           </motion.div>
         ))}
       </div>

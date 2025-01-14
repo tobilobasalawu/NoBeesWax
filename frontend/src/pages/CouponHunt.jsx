@@ -151,33 +151,35 @@ export default function CouponHunt() {
             </div>
             
             <div className="border-t border-gray-200 pt-4">
-              <div className="mb-4">
-                <h4 className="font-semibold mb-2 text-center" style={{ color: 'var(--text-primary)' }}>Description</h4>
-                <p className="text-gray-600">
-                  {data?.description || 'Generate a coupon to see the description'}
-                </p>
-                {/* Debug info
-                {process.env.NODE_ENV === 'development' && (
-                  <p className="text-xs text-gray-400 mt-1">
-                    Debug - data?.description: {JSON.stringify(data?.description)}
+              <div className="coupon-details">
+                <div className="description-section">
+                  <h4 className="section-title">Description</h4>
+                  <p className="description-text">
+                    {data?.description || 'Generate a coupon to see the description'}
                   </p>
-                )} */}
-              </div>
-              
-              <div>
-                <h4 className="font-semibold mb-2 text-center" style={{ color: 'var(--text-primary)' }}>Details</h4>
-                <div className="text-gray-600 space-y-1">
-                  <p>{data?.details?.validity || 'Valid online and in stores (where applicable)'}</p>
-                  <p>{data?.details?.restrictions || 'Cannot be combined with other offers'}</p>
-                  <p>{data?.details?.exclusions || 'Some exclusions may apply'}</p>
-                  <p>{data?.details?.duration || 'Limited time offer'}</p>
                 </div>
-                {/* Debug info
-                {process.env.NODE_ENV === 'development' && (
-                  <p className="text-xs text-gray-400 mt-1">
-                    Debug - data?.details: {JSON.stringify(data?.details)}
-                  </p>
-                )} */}
+                
+                <div className="details-section">
+                  <h4 className="section-title">Details</h4>
+                  <div className="details-list">
+                    <div className="detail-item">
+                      <span className="detail-icon">✓</span>
+                      <p>{data?.details?.validity || 'Valid online and in stores (where applicable)'}</p>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-icon">ℹ</span>
+                      <p>{data?.details?.restrictions || 'Cannot be combined with other offers'}</p>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-icon">⚠</span>
+                      <p>{data?.details?.exclusions || 'Some exclusions may apply'}</p>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-icon">⏰</span>
+                      <p>{data?.details?.duration || 'Limited time offer'}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
               
               <p className="text-sm text-gray-500 mt-4 italic">
@@ -195,7 +197,7 @@ export default function CouponHunt() {
         className="bg-white rounded-lg shadow-md p-6"
       >
         <h2 className="text-2xl font-semibold mb-6">How It Works</h2>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-4 gap-6">
           <div className="bg-white rounded-lg shadow-md p-6">
             <h3 className="text-lg font-semibold mb-2 text-center">1. Select Retailer</h3>
             <p className="text-gray-600 text-center">Choose from our supported retailers list</p>
@@ -207,6 +209,10 @@ export default function CouponHunt() {
           <div className="bg-white rounded-lg shadow-md p-6">
             <h3 className="text-lg font-semibold mb-2 text-center">3. Validate & Save</h3>
             <p className="text-gray-600 text-center">We'll verify the code works instantly</p>
+          </div>
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h3 className="text-lg font-semibold mb-2 text-center">4. Profit!</h3>
+            <p className="text-gray-600 text-center">Enjoy your savings and discounts</p>
           </div>
         </div>
       </motion.div>

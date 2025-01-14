@@ -39,97 +39,125 @@ body.light-theme {
   background: var(--bg-primary);
   color: var(--text-primary);
   padding: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
+  width: 100%;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border: 1px solid var(--border-color);
 }
 
-h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 1.5rem;
-  position: relative;
-}
-
-h1::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 2px;
-  background: var(--primary-color);
-}
-
-/* Retailer Dropdown */
-select {
-  width: 100%;
-  padding: 0.8rem;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
-  border: 2px solid var(--border-color);
-  background-color: var(--bg-card);
-  color: var(--text-primary);
-  transition: all 0.3s ease;
-}
-
-select:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px var(--input-focus-color);
-  outline: none;
-}
-
-/* Button Styles */
-button {
-  background: var(--gradient-primary);
-  color: var(--text-primary);
-  box-shadow: var(--btn-shadow);
-  padding: 0.8rem 1.6rem;
-  border-radius: 0.5rem;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 177, 0, 0.4);
-}
-
-button:active {
-  transform: scale(0.98);
-  box-shadow: 0 2px 10px rgba(255, 177, 0, 0.3);
-}
-
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* Coupon Section */
 .coupon-container {
-  background-color: var(--bg-card);
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  background: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .coupon-container:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+}
+
+.coupon-header {
+  background: var(--gradient-primary);
+  padding: 1rem;
+  color: white;
+}
+
+.retailer {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.title {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin: 0.25rem 0 0 0;
+}
+
+.coupon-content {
+  padding: 1rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.code-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 177, 0, 0.1);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.code {
+  font-family: monospace;
+  font-size: 1.1rem;
+  color: var(--primary-color);
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.copy-button {
+  background: transparent;
+  color: var(--primary-color);
+  border: none;
+  padding: 0.25rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.copy-button:hover {
+  transform: scale(1.05);
+  color: var(--primary-hover);
+}
+
+.description {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.detail {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.detail span {
+  color: var(--primary-color);
 }
 
 .grid {
   display: grid;
   gap: 2rem;
   padding: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 @media (min-width: 768px) {
@@ -139,226 +167,92 @@ button:disabled {
   }
 }
 
-@media (min-width: 1024px) {
+@media (max-width: 767px) {
   .grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3rem;
+    max-width: 600px;
+    margin: 0 auto;
   }
 }
 
-.coupon-container h2 {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 1rem;
+.page-title {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+  padding-bottom: 1rem;
 }
 
-.coupon-container p {
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  margin-bottom: 1rem;
+.page-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: var(--gradient-primary);
+  border-radius: 2px;
 }
 
-.coupon-container .code {
-  font-size: 1.2rem;
-  color: var(--primary-color);
-  font-weight: bold;
-  background-color: #fff8e1;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  display: inline-block;
-  margin-bottom: 1.5rem;
-}
-
-.coupon-container button {
-  background-color: var(--primary-color);
-  color: var(--text-primary);
-  padding: 0.8rem 1.5rem;
-  border-radius: 0.5rem;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.coupon-container button:hover {
-  background-color: var(--primary-hover);
-  transform: scale(1.05);
-}
-
-.coupon-container button:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--input-focus-color);
-}
-
-/* "How It Works" Section */
 #how-it-works {
-  background-color: rgba(255, 177, 0, 0.1);
-  padding: 2.5rem;
+  margin-top: 4rem;
+  padding: 2rem;
+  background: var(--bg-card);
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  margin-top: 3rem;
-  transition: all 0.3s ease;
-}
-
-#how-it-works:hover {
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
 }
 
 #how-it-works h3 {
-  font-size: 1.8rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
   color: var(--text-primary);
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
   text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  position: relative;
-}
-
-#how-it-works h3::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 3px;
-  background: var(--primary-color);
 }
 
 #how-it-works ol {
-  padding-left: 1.5rem;
+  list-style: none;
+  counter-reset: steps;
+  padding: 0;
 }
 
 #how-it-works li {
-  font-size: 1.2rem;
-  color: var(--text-secondary);
-  margin-bottom: 1rem;
-  line-height: 1.6;
+  counter-increment: steps;
+  padding-left: 2.5rem;
   position: relative;
-  padding-left: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
 }
 
 #how-it-works li::before {
-  content: '→';
-  font-size: 1.5rem;
-  color: var(--primary-color);
+  content: counter(steps);
   position: absolute;
   left: 0;
   top: 50%;
   transform: translateY(-50%);
+  width: 1.75rem;
+  height: 1.75rem;
+  background: var(--gradient-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
-#how-it-works ol li:not(:last-child) {
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 1rem;
-}
-
-#how-it-works ol li:focus-within {
-  background-color: rgba(255, 177, 0, 0.1);
-  border-radius: 6px;
-  padding-left: 1.8rem;
-}
-
-#how-it-works ol li:hover {
-  background-color: rgba(255, 177, 0, 0.05);
-  border-radius: 6px;
-}
-
-/* Sticky Footer */
 .sticky-footer {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: var(--bg-card);
-  color: var(--text-primary);
-  padding: 1rem 0;
+  background: var(--bg-card);
+  padding: 1rem;
   text-align: center;
-  font-size: 1rem;
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border-top: 1px solid var(--border-color);
+  z-index: 10;
 }
 
 .sticky-footer p {
-  font-size: 0.9rem;
+  color: var(--text-secondary);
   margin: 0;
-  padding: 0;
-  color: var(--text-secondary);
-}
-
-.sticky-footer a {
-  color: var(--primary-color);
-  text-decoration: none;
-  margin-left: 0.5rem;
-  font-weight: bold;
-}
-
-.sticky-footer a:hover {
-  text-decoration: underline;
-}
-
-select {
-  width: 100%;
-  padding: 1rem 1.5rem;
-  border-radius: 1rem;
-  font-size: 1.125rem;
-  color: var(--text-primary);
-  background-color: var(--bg-card);
-  border: 2px solid var(--border-color);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  appearance: none;
-  cursor: pointer;
-  position: relative;
-  outline: none;
-  display: block;
-}
-
-select::after {
-  content: '▼';
-  position: absolute;
-  top: 50%;
-  right: 1.2rem;
-  transform: translateY(-50%);
-  color: var(--text-secondary);
-  font-size: 1.4rem;
-  pointer-events: none;
-}
-
-select:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(255, 177, 0, 0.3);
-}
-
-select option {
-  background-color: var(--bg-card);
-  color: var(--text-primary);
-  padding: 1rem 1.2rem;
-  border: none;
-  transition: background-color 0.2s ease;
-}
-
-select option:first-child {
-  color: var(--text-secondary);
-  font-style: italic;
-}
-
-.select-container {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  max-width: 400px;
-  margin-bottom: 1.5rem;
-  border-radius: 1rem;
-  background-color: var(--bg-container);
-}
-
-.select-container select:focus {
-  box-shadow: 0 0 0 3px rgba(255, 177, 0, 0.3);
-}
-
-select:focus-visible {
-  outline: 3px solid var(--primary-color);
 }
