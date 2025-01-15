@@ -76,3 +76,15 @@ Privacy-focused platform for discovering and sharing deals while keeping shoppin
 - Improving coupon validation accuracy
 - Adding user achievements system
 - Enhancing post search with ChromaDB embeddings
+
+## Firebase Setup
+- Firebase config must be in `.env` file in frontend directory
+- Never commit firebase.js with actual credentials
+- Use .env.example to show required environment variables
+- Required env vars:
+  - VITE_FIREBASE_API_KEY
+  - VITE_FIREBASE_AUTH_DOMAIN
+  - VITE_FIREBASE_PROJECT_ID
+  - VITE_FIREBASE_STORAGE_BUCKET
+  - VITE_FIREBASE_MESSAGING_SENDER_ID
+  - VITE_FIREBASE_APP_ID
