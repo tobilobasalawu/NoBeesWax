@@ -29,6 +29,7 @@ dist-ssr
 
 backend/firebasesdk.json
 firebase-db
+firebase.js
 /firebasesdk.json
 firebasesdk.json
 
