@@ -1,6 +1,6 @@
 # NoBeesWax
 
-NoBeesWax is a revolutionary, privacy-focused platform designed to help users discover, share, and validate discount coupons without compromising on their personal data. Unlike other services, NoBeesWax ensures a seamless, transparent, and secure experience for its users by leveraging advanced AI models and an engaged community.
+NoBeesWax is a revolutionary, privacy-focused platform designed to help users discover, share, and validate discount coupons without compromising on their personal data. Unlike other services (cough cough PayPal Honey), NoBeesWax ensures a seamless, transparent, and secure experience for its users by leveraging advanced AI models and an engaged community. 
 
 ---
 
