@@ -199,5 +199,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ---
 
-For more information, visit the [NoBeesWax GitHub Repository](https://github.com/Warfarian/NoBeesWax).
+Made for the nosu ai hackathon 2025 by [Visharad](https://www.github.com/vishxrad), [Arsh](https://www.github.com/Warfarian), [Tobi](https://www.github.com/tobilobasalawu) and [Afreen](https://www.github.com/AfreenInnovates)
 
