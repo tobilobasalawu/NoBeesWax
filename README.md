@@ -173,6 +173,26 @@ We welcome contributions from developers, designers, and enthusiasts! To contrib
 
 ---
 
+## Acknowledgments 
+
+Special thanks to the amazing tools and technologies that made NoBeeswax possible:
+
+### AI/ML
+- [Unsloth](https://github.com/unslothai/unsloth) for making model fine-tuning 2-5x faster
+- [Nebius AI](https://nebius.ai/) for providing the Qwen2-VL-72B vision model
+- [Meta AI](https://ai.meta.com/) for open-sourcing LLaMA 3
+- [Ollama](https://ollama.com/) for local model hosting
+
+### Development
+- [Codubuff](https://www.codebuff.com/) for their amazing code assistant
+- [Clerk](https://clerk.com/) for secure authentication
+- [Firebase](https://firebase.google.com/) for real-time database
+- [Reddit API](https://www.reddit.com/dev/api/) for coupon sourcing
+- [Vite](https://vitejs.dev/) for frontend tooling
+- [Flask](https://flask.palletsprojects.com/) for backend API
+
+---
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
