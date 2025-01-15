@@ -116,29 +116,31 @@ Follow these steps to set up NoBeesWax locally:
      ```
    - Install dependencies:
      ```bash
-     npm install
+     pip install -r requirements.txt
      ```
    - Start the backend server:
      ```bash
-     npm start
+     python server.py
      ```
+   - Backend server runs at `http://localhost:5000`.
 
 3. Frontend Setup:
 
-   - Navigate to the frontend directory:
-     ```bash
-     cd ../frontend
-     ```
    - Install dependencies:
      ```bash
      npm install
      ```
    - Start the frontend application:
      ```bash
-     npm start
+     npm start frontend
      ```
+4. Ollama (AI Model Seetup):
+   - Run the following command:
+     ```
+     ollama pull visharxd/coupon-generator
+     ```     
 
-4. Access the application at `http://localhost:3000`.
+5. Access the application at `http://localhost:5173`.
 
 ---
 
