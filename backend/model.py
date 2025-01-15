@@ -47,7 +47,7 @@ class CouponGenerator:
     @staticmethod
     async def generate_coupon(retailer):
         """Generate a coupon using the Ollama API."""
-        prompt = f"""As an AI coupon generator, create a realistic and specific coupon for {retailer}.
+        prompt = f"""As an AI coupon generator, create a realistic and specific coupon for {retailer}. Make up a coupon code if you dont have it that seems realistic.
         Include a compelling discount (percentage off, dollar amount, BOGO, etc.) and relevant terms.
         
         Respond with exactly this structure:
