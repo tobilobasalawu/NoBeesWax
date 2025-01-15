@@ -22,7 +22,7 @@ export default function Home() {
           <span> Private </span> & Sweet
         </h1>
         <p className="hero-description">
-          NoBeeswax uses advanced AI to predict and validate discount codes in real-time,
+          NoBeeswax uses advanced AI to predict and validate discount codes in real-time, <br />
           making your online shopping experience more rewarding.
         </p>
         <div className="hero-buttons">

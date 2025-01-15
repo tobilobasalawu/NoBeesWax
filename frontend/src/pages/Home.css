@@ -105,6 +105,11 @@
   margin: 0 auto;
 }
 
+.hero-buttons .btn {
+  width: 200px;
+  text-align: center;
+}
+
 .features {
   padding: 2rem var(--container-padding);
   gap: 1.5rem;
@@ -196,7 +201,7 @@
   }
 }
 
-#startHunting, #viewDash {
+#startHunting, #viewCotd {
   padding: 0.875rem 1.5rem;
   width: 100%;
   text-align: center;
@@ -208,6 +213,7 @@
   transform: translateY(-3px);
   box-shadow: var(--btn-primary-hover-shadow);
 }
+
 
 .home-footer {
   margin-top: 4rem;
