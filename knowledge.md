@@ -1,13 +1,26 @@
 # NoBeeswax Knowledge Base
 
 ## Project Overview
-Privacy-focused platform for discovering and sharing deals while keeping shopping habits private. Uses AI to predict and validate discount codes in real-time.
+Privacy-focused platform for discovering and sharing deals while keeping shopping habits private. Created as an ethical alternative to PayPal Honey and similar tracking-based services. Uses AI to predict and validate discount codes in real-time without compromising user privacy.
+
+### Core Mission
+- Provide coupon functionality without tracking
+- Keep shopping habits private
+- Never collect or sell user data
+- Generate codes locally using AI
+- Build community-driven alternative to corporate tracking
 
 ## Architecture
 - Frontend: React + Vite
 - Backend: Python Flask API
 - Authentication: Clerk
-- Database: ChromaDB (vector database for posts)
+- Database: Firebase (real-time database for posts and user data)
+- AI Model: Qwen2-VL-72B hosted locally via Ollama
+
+### AI Model Setup
+- Model hosted locally using Ollama
+- Use `ollama pull visharxd/coupon-generator` to get the fine-tuned model
+- Model provides coupon generation and validation
 
 ## Key Components
 - CouponHunt: AI-powered coupon code generator
@@ -40,7 +53,7 @@ Privacy-focused platform for discovering and sharing deals while keeping shoppin
 - All API endpoints should include error handling
 - Use try/catch blocks for async operations
 - Log all API calls and errors
-- ChromaDB used for post storage and retrieval
+- Firebase used for post storage and retrieval
 
 ### Performance
 - Lazy load routes when possible
@@ -49,7 +62,7 @@ Privacy-focused platform for discovering and sharing deals while keeping shoppin
 
 ## Common Tasks
 - Start frontend: `cd frontend && npm run dev`
-- Start backend: `cd backend && python model.py`
+- Start backend: `cd backend && python server.py`
 - Install new frontend package: `cd frontend && npm install <package>`
 
 ## API Endpoints
@@ -63,7 +76,7 @@ Privacy-focused platform for discovering and sharing deals while keeping shoppin
 - [Clerk Documentation](https://clerk.com/docs)
 - [Vite Documentation](https://vitejs.dev/guide/)
 - [Flask Documentation](https://flask.palletsprojects.com/)
-- [ChromaDB Documentation](https://docs.trychroma.com/)
+- [Firebase Documentation](https://firebase.google.com/docs)
 
 ## Development Setup
 - Start backend: `cd backend && python server.py`
@@ -76,15 +89,3 @@ Privacy-focused platform for discovering and sharing deals while keeping shoppin
 - Improving coupon validation accuracy
 - Adding user achievements system
 - Enhancing post search with ChromaDB embeddings
-
-## Firebase Setup
-- Firebase config must be in `.env` file in frontend directory
-- Never commit firebase.js with actual credentials
-- Use .env.example to show required environment variables
-- Required env vars:
-  - VITE_FIREBASE_API_KEY
-  - VITE_FIREBASE_AUTH_DOMAIN
-  - VITE_FIREBASE_PROJECT_ID
-  - VITE_FIREBASE_STORAGE_BUCKET
-  - VITE_FIREBASE_MESSAGING_SENDER_ID
-  - VITE_FIREBASE_APP_ID
