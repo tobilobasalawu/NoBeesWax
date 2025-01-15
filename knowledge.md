@@ -88,4 +88,4 @@ Privacy-focused platform for discovering and sharing deals while keeping shoppin
 - Implementing rate limiting
 - Improving coupon validation accuracy
 - Adding user achievements system
-- Enhancing post search with Firebase queries
+- Enhancing post search with ChromaDB embeddings

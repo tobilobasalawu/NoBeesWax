@@ -29,12 +29,12 @@ export default function Home() {
           {isUserSignedIn() ? (
             <>
               <Link to="/hunt" className="btn" id='startHunting'>Start Hunting</Link>
-              <Link to="/dashboard" className="btn" id='viewDash'>View Dashboard</Link>
+              <Link to="/coupon-of-the-day" className="btn" id='viewCotd'>Coupons of the Day</Link>
             </>
           ) : (
             <>
               <Link to="/sign-in" className="btn" id='startHunting'>Start Hunting</Link>
-              <Link to="/sign-in" className="btn" id='viewDash'>View Dashboard</Link>
+              <Link to="/sign-in" className="btn" id='viewCotd'>Coupons of the Day</Link>
             </>
           )}
         </div>
