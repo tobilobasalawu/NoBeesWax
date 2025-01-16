@@ -31,7 +31,7 @@ NoBeesWax is a revolutionary, privacy-focused platform designed to help users di
 
 ## Authentication
 
-Authentication in NoBeesWax is handled seamlessly using [Clerk](https://clerk.dev/), allowing users to log in with their GitHub or YouTube accounts. This integration ensures both security and ease of access, making it convenient for users to start discovering deals immediately.
+Authentication in NoBeesWax is handled seamlessly using [Clerk](https://clerk.dev/), allowing users to log in with their GitHub or Google accounts. This integration ensures both security and ease of access, making it convenient for users to start discovering deals immediately.
 
 ---
 
